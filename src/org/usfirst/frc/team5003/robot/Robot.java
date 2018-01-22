@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.usfirst.frc.team5003.robot.subsystems.DrivetrainSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.EmptySubsystem;
+import org.usfirst.frc.team5003.robot.subsystems.GyroSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.ServoSubsystem;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -16,23 +17,30 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 	public static OI oi;
 	public static Joystick joystick;
-	public static ServoSubsystem servoSub;
 	public static DrivetrainSubsystem drivetrainSub;
-	public static EmptySubsystem emptySubsystem;
+	
+	public static ServoSubsystem servoSub;
+	public static EmptySubsystem emptySub;
+	public static GyroSubsystem gyroSub;
 	
 	@Override
 	public void robotInit() {
 		try
 		{
 			oi = new OI();
-			joystick = new Joystick(0);
+			//joystick = new Joystick(0);
 			servoSub = new ServoSubsystem();
 			//drivetrainSub = new DrivetrainSubsystem();
-			emptySubsystem = new EmptySubsystem();
+			emptySub = new EmptySubsystem();
+			gyroSub = new GyroSubsystem();
 			
 			SmartDashboard.putData(Scheduler.getInstance());
+			SmartDashboard.putData(servoSub);
 	    	SmartDashboard.putData(servoSub.servoA);
 	    	SmartDashboard.putData(servoSub.servoB);
+	    	
+	    	SmartDashboard.putData(gyroSub);
+	    	SmartDashboard.putData(gyroSub.gyro);
 			
 		}
 		catch (Exception ex)

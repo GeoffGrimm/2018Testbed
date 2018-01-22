@@ -10,7 +10,7 @@ public class TalkativeCommand extends Command {
 	boolean finished = true;
 	
     public TalkativeCommand() {
-    	requires(Robot.emptySubsystem);
+    	requires(Robot.emptySub);
     }
     
     public TalkativeCommand(String name, boolean finished)
