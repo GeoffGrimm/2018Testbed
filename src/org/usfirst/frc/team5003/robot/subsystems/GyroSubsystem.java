@@ -3,6 +3,7 @@ package org.usfirst.frc.team5003.robot.subsystems;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class GyroSubsystem extends Subsystem {
 
@@ -28,6 +29,11 @@ public class GyroSubsystem extends Subsystem {
     
     public double getAngle(){
     	return gyro.getAngle();
+    }
+    public void show() {
+    	if (isGood) {
+    		SmartDashboard.putNumber("Gyro Angle",  gyro.getAngle());
+    	}
     }
 }
 

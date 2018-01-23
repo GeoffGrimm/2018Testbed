@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // http://files.andymark.com/PDFs/UsingL16LinearServo.pdf
 public class ServoSubsystem extends Subsystem {
-	public static double fullIn = 0.17;
-	public static double fullOut = 0.82;
+	public static double fullIn = 0.18;
+	public static double fullOut = 1.0;
 	private static int channelA = 8;
 	private static int channelB = 9;
 	public Servo servoA;
@@ -33,8 +33,7 @@ public class ServoSubsystem extends Subsystem {
     public void initDefaultCommand() {
     }
     
-    public void set(int percent){
-    	System.out.println(percent);
+    public void set(double percent){
     	double value = ((double)percent / 100 ) * (fullOut-fullIn) + fullIn;
     	if (value < fullIn)
     		value = fullIn;
@@ -45,18 +44,17 @@ public class ServoSubsystem extends Subsystem {
     }
     
     public void show() {
-    	SmartDashboard.putNumber("A    ", servoA.get());
-    	SmartDashboard.putNumber("A Pos", servoA.getPosition());
-    	SmartDashboard.putNumber("A Raw", servoA.getRaw());
-    	
-    	
-    	SmartDashboard.putNumber("B    ", servoB.get());
-    	SmartDashboard.putNumber("B Pos", servoB.getPosition());
-    	SmartDashboard.putNumber("B Raw", servoB.getRaw());
-    	
-
-
+    	if (isGood) {
+        	SmartDashboard.putNumber("A    ", servoA.get());
+        	SmartDashboard.putNumber("A Pos", servoA.getPosition());
+        	SmartDashboard.putNumber("A Raw", servoA.getRaw());
+        	    	
+        	SmartDashboard.putNumber("B    ", servoB.get());
+        	SmartDashboard.putNumber("B Pos", servoB.getPosition());
+        	SmartDashboard.putNumber("B Raw", servoB.getRaw());
+    		
     	}
+    }
         
 }
 

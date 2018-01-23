@@ -4,9 +4,9 @@ import org.usfirst.frc.team5003.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveCommand extends Command {
+public class DriveWithJoystickCommand extends Command {
 
-    public DriveCommand() {
+    public DriveWithJoystickCommand() {
         requires(Robot.drivetrainSub);
     }
 
@@ -14,7 +14,7 @@ public class DriveCommand extends Command {
     }
 
     protected void execute() {
-    	Robot.drivetrainSub.drive();
+    	Robot.drivetrainSub.driveWithJoystick();
     }
 
     protected boolean isFinished() {

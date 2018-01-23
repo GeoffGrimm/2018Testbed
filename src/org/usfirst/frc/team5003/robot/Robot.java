@@ -20,32 +20,28 @@ public class Robot extends TimedRobot {
 	public static DrivetrainSubsystem drivetrainSub;
 	
 	public static ServoSubsystem servoSub;
-	public static EmptySubsystem emptySub;
 	public static GyroSubsystem gyroSub;
+	public static EmptySubsystem emptySub;
 	
 	@Override
 	public void robotInit() {
 		try
 		{
-			oi = new OI();
-			//joystick = new Joystick(0);
+			joystick = new Joystick(0);
+			drivetrainSub = new DrivetrainSubsystem();
 			servoSub = new ServoSubsystem();
-			//drivetrainSub = new DrivetrainSubsystem();
-			emptySub = new EmptySubsystem();
 			gyroSub = new GyroSubsystem();
+			emptySub = new EmptySubsystem();
 			
 			SmartDashboard.putData(Scheduler.getInstance());
 			SmartDashboard.putData(servoSub);
-	    	SmartDashboard.putData(servoSub.servoA);
-	    	SmartDashboard.putData(servoSub.servoB);
-	    	
 	    	SmartDashboard.putData(gyroSub);
-	    	SmartDashboard.putData(gyroSub.gyro);
 			
+			oi = new OI();
 		}
 		catch (Exception ex)
 		{
-			Robot.log("\r\n" + ex.getMessage() + "\r\n" + ex.getStackTrace());
+			Robot.log("\r\nNuts.\r\nMessage: " + ex.getMessage() + "\r\nCause: " + ex.getCause() + "\r\nClass: " + ex.getClass() + "\r\nStack: " + ex.getStackTrace() + "\r\nnuts ends");
 		}
 	}
 
@@ -61,7 +57,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		SmartDashboard.putString("Driver Station Message", DriverStation.getInstance().getGameSpecificMessage());
+		SmartDashboard.putString("Driver Station Message is", "[" + DriverStation.getInstance().getGameSpecificMessage() + "]");
 		
 	}
 
@@ -78,6 +74,7 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		servoSub.show();
+		gyroSub.show();
 	}
 
 	@Override
