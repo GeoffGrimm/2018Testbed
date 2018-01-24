@@ -7,17 +7,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ServoCommand extends Command {
 
-	int value = 0;
 	String dataSource = null;
-	
-    public ServoCommand(int value) {
-        requires(Robot.servoSub);
-        this.value = value;
-    }
+	double value = 0;
     
     public ServoCommand(String dataSource) {
-        requires(Robot.servoSub);
+        this();
         this.dataSource = dataSource;
+    }
+    
+	public ServoCommand(double d) {
+        this();
+        this.value = d;
+    }
+	
+    public ServoCommand(){
+    	requires(Robot.servoSub);
     }
     
     protected void initialize() {

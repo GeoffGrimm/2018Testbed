@@ -2,7 +2,6 @@ package org.usfirst.frc.team5003.robot.subsystems;
 
 import org.usfirst.frc.team5003.robot.Robot;
 import org.usfirst.frc.team5003.robot.commands.DriveWithJoystickCommand;
-import org.usfirst.frc.team5003.robot.commands.IdleDriveCommand;
 
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -10,18 +9,16 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DrivetrainSubsystem extends Subsystem {
-
-	Talon motorLeft;
-	Talon motorRight;
 	Spark driveLeft0;
 	Victor driveLeft1;
 	Spark driveRight0;
 	Victor driveRight1;
 	
-	SpeedControllerGroup left;
-	SpeedControllerGroup right;
+	SpeedControllerGroup speedControllerLeft;
+	SpeedControllerGroup speedControllerRight;
 	
 	DifferentialDrive differential;
 	public Boolean isGood;
@@ -37,9 +34,9 @@ public class DrivetrainSubsystem extends Subsystem {
 			driveRight0.stopMotor();
 			driveRight1 = new Victor(6);
 			driveRight1.stopMotor();
-			left = new SpeedControllerGroup(driveLeft0, driveLeft1);
-			right = new SpeedControllerGroup(driveRight0, driveRight1);
-			differential = new DifferentialDrive(left, right);	
+			speedControllerLeft = new SpeedControllerGroup(driveLeft0, driveLeft1);
+			speedControllerRight = new SpeedControllerGroup(driveRight0, driveRight1);
+			differential = new DifferentialDrive(speedControllerLeft, speedControllerRight);	
 			differential.arcadeDrive(0,  0);
 		}
 		catch (Exception ex){
@@ -47,8 +44,8 @@ public class DrivetrainSubsystem extends Subsystem {
 			driveLeft1 = null;
 			driveRight0 = null;
 			driveRight1 = null;
-			left = null;
-			right = null;
+			speedControllerLeft = null;
+			speedControllerRight = null;
 			differential = null;
 		}
 		if (differential != null)
@@ -74,6 +71,17 @@ public class DrivetrainSubsystem extends Subsystem {
     
     public void stop(){
     	differential.arcadeDrive(0,0);
+    }
+    
+    public void show() {
+    	if (isGood) {
+    		SmartDashboard.putNumber("L0", driveLeft0.get());
+    		SmartDashboard.putNumber("L1", driveLeft1.get());
+    		SmartDashboard.putNumber("R0", driveRight0.get());
+    		SmartDashboard.putNumber("R1", driveRight1.get());
+    		SmartDashboard.putNumber("L", speedControllerLeft.get());
+    		SmartDashboard.putNumber("R", speedControllerRight.get());
+    	}
     }
 }
 

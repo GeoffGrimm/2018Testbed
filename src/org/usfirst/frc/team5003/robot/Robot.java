@@ -27,8 +27,8 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		try
 		{
-			joystick = new Joystick(0);
-			drivetrainSub = new DrivetrainSubsystem();
+			//joystick = new Joystick(0);
+			//drivetrainSub = new DrivetrainSubsystem();
 			servoSub = new ServoSubsystem();
 			gyroSub = new GyroSubsystem();
 			emptySub = new EmptySubsystem();
@@ -36,6 +36,7 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putData(Scheduler.getInstance());
 			SmartDashboard.putData(servoSub);
 	    	SmartDashboard.putData(gyroSub);
+	    	SmartDashboard.putData(emptySub);
 			
 			oi = new OI();
 		}
@@ -57,8 +58,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		SmartDashboard.putString("Driver Station Message is", "[" + DriverStation.getInstance().getGameSpecificMessage() + "]");
-		
+		//SmartDashboard.putString("Driver Station Message is", "[" + DriverStation.getInstance().getGameSpecificMessage() + "]");
 	}
 
 	@Override
@@ -75,6 +75,9 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		servoSub.show();
 		gyroSub.show();
+		//drivetrainSub.show();
+		//SmartDashboard.putNumber("Joy X", joystick.getX());
+		//SmartDashboard.putNumber("Joy Y", joystick.getY());
 	}
 
 	@Override

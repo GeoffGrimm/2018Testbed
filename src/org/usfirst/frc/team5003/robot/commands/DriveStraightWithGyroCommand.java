@@ -7,32 +7,39 @@ import org.usfirst.frc.team5003.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- */
 public class DriveStraightWithGyroCommand extends Command {
 
-	double duration = 0;
-	double power = 0.10;
-	double start;
-	double heading;
+	String durationKey = null;
+	String powerKey = null;
+	double duration;
+	double power;
+
 	boolean finished = false;
 	double tolerance = 1.0;
 	
-	public DriveStraightWithGyroCommand(String durationKey, String powerKey)
-	{
-		this(SmartDashboard.getNumber(durationKey,  0), SmartDashboard.getNumber(powerKey,  0.0));
+	double start;
+	double heading;
+
+	public DriveStraightWithGyroCommand(String durationKey, String powerKey) {
+		this();
+		this.durationKey = durationKey;
+		this.powerKey = powerKey;
 	}
-    public DriveStraightWithGyroCommand(double secs, double power) {
+    public DriveStraightWithGyroCommand(double secsDuration, double power) {
+    	this();
+    	this.duration = secsDuration * 1000;
+    	this.power = power;
+    }
+    public DriveStraightWithGyroCommand() {
     	requires(Robot.drivetrainSub);
     	requires(Robot.gyroSub);
-    	this.duration = secs * 1000;
-    	this.power = power;
-    	finished = false;
-    	
     }
 
     protected void initialize() {
+    	if (durationKey != null)
+    		duration = SmartDashboard.getNumber(durationKey,  0.0) * 1000;
+    	if (powerKey != null)
+    		power = SmartDashboard.getNumber(powerKey,  0.0);
     	start = new Date().getTime();
     	heading = Robot.gyroSub.getAngle();
     }
@@ -42,7 +49,6 @@ public class DriveStraightWithGyroCommand extends Command {
     	double delta = heading - Robot.gyroSub.getAngle();
     	double correction = -delta / 180; // 100% power if 180 degrees off, 0% if right on
     	Robot.drivetrainSub.arcadeDrive(power, correction);
-    	
     }
 
     protected boolean isFinished() {

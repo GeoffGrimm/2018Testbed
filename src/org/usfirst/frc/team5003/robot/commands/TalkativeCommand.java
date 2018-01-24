@@ -9,20 +9,21 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TalkativeCommand extends Command {
 
 	String configuration;
+	long duration;
 	long start;
-	long delay;
 	long lastMessage;
-	
-    public TalkativeCommand() {
-    	this("default string", 5);
 
-    }
-    public TalkativeCommand(String configuration, long delay){
+    public TalkativeCommand(String configuration, long secsToRun){
+    	this();
     	this.configuration = configuration;
-    	this.delay = delay;
+    	this.duration = secsToRun*1000;
     	Robot.log(String.format("%s ctor", this.configuration));
     }
-
+    
+    public TalkativeCommand() {
+    	requires(Robot.emptySub);
+    }
+    
     protected void initialize() {
     	Robot.log(String.format("%s init", configuration));
     	start = new Date().getTime();
@@ -31,6 +32,7 @@ public class TalkativeCommand extends Command {
 
     protected void execute() {
     	long now = new Date().getTime();
+    	// display executing message every 1 sec, not on EVERY call to execute()
     	if (now - lastMessage > 1000)
     	{
     		Robot.log(String.format("%s execute", configuration));
@@ -40,7 +42,7 @@ public class TalkativeCommand extends Command {
 
     protected boolean isFinished() {
     	long now = new Date().getTime();
-    	if (now - start > delay){
+    	if (now - start > duration){
     		Robot.log(String.format("%s isFinished", configuration));
     		return true;
     	}

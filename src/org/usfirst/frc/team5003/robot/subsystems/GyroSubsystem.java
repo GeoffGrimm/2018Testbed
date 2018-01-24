@@ -11,7 +11,6 @@ public class GyroSubsystem extends Subsystem {
 	public Boolean isGood = false;
 	
 	public GyroSubsystem(){
-		isGood = false;
 		try{
 			gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 			gyro.calibrate();
@@ -23,13 +22,13 @@ public class GyroSubsystem extends Subsystem {
 			isGood = true;
 	}
 
-
     public void initDefaultCommand() {
     }
     
     public double getAngle(){
     	return gyro.getAngle();
     }
+    
     public void show() {
     	if (isGood) {
     		SmartDashboard.putNumber("Gyro Angle",  gyro.getAngle());

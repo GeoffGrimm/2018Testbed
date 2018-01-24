@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class EmptySubsystem extends Subsystem {
 
     public void initDefaultCommand() {
-        	setDefaultCommand(new TalkativeCommand("default for empty subsystem", 9999));
+        	setDefaultCommand(new TalkativeCommand("default", 9999));
     }
 }
 

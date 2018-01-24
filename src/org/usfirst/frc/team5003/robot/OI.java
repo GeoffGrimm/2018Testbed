@@ -10,27 +10,35 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class OI {
 	
 	public OI() {
-		SmartDashboard.putNumber("Servo Data", 50);
 		
+		SmartDashboard.putData("Talkative Command On Click", new TalkativeCommand("click", 15));
+		
+		SmartDashboard.putNumber("Servo Value",       0.5);
+		SmartDashboard.putNumber("Servo Stop Value",  0.0);
+		SmartDashboard.putNumber("Servo In Value",    0.2);
+		SmartDashboard.putNumber("Servo Out Value",   0.8);
 		if (Robot.servoSub.isGood)
 		{
-			SmartDashboard.putData("Servo", new ServoCommand("Servo Data"));
-			SmartDashboard.putData("Full In", new ServoCommand(0));
-			SmartDashboard.putData("Full Out", new ServoCommand(100));
+			SmartDashboard.putData("Servo",      new ServoCommand("Servo Value"));
+			SmartDashboard.putData("Servo Stop", new ServoCommand("Servo Stop Value"));
+			SmartDashboard.putData("Servo In",   new ServoCommand("Servo In Value"));
+			SmartDashboard.putData("Servo Out",  new ServoCommand("Servo Out Value"));
 		}
 		
-		SmartDashboard.putData("Finite Talkative Command", new TalkativeCommand("finite", 15));
+
+//		SmartDashboard.putNumber("Rotate Value", 90);
+//		if (Robot.gyroSub.isGood)
+//			SmartDashboard.putData("Rotate", new RotateWithGyroCommand("Rotate Value"));
+
 		
-		SmartDashboard.putNumber("Rotate", 90);
-		SmartDashboard.putNumber("Duration", 2);
-		SmartDashboard.putNumber("Power", 0.1);
-		SmartDashboard.putString("CommandString",  "P0.1, D2.0, R90");
-		if (Robot.drivetrainSub.isGood && Robot.gyroSub.isGood)
-		{
-			SmartDashboard.putData("Rotate", new RotateWithGyroCommand("Rotate"));
-			SmartDashboard.putData("Drive Straight", new DriveStraightWithGyroCommand("Duration", "Power"));
-			SmartDashboard.putData("Run Command String", new GroupBuilderCommand());
-		}
+//		SmartDashboard.putNumber("Duration Value", 2);
+//		SmartDashboard.putNumber("Power Value", 0.1);
+//		SmartDashboard.putString("CommandString",  "P0.1, D2.0, R90");
+//		if (Robot.drivetrainSub.isGood && Robot.gyroSub.isGood)
+//		{
+//			SmartDashboard.putData("Drive Straight", new DriveStraightWithGyroCommand("Duration Value", "Power Value"));
+//			SmartDashboard.putData("Run Command String", new GroupBuilderCommand());
+//		}
 		
 	}
 }
