@@ -5,29 +5,31 @@ import org.usfirst.frc.team5003.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ServoCommand extends Command {
-
+/**
+ *
+ */
+public class RawServoCommand extends Command {
 	String dataSource = null;
-	double value = 0;
+	int value = 0;
     
-    public ServoCommand(String dataSource) {
+    public RawServoCommand(String dataSource) {
         this();
         this.dataSource = dataSource;
     }
     
-	public ServoCommand(double d) {
+	public RawServoCommand(int d) {
         this();
         this.value = d;
     }
 	
-    public ServoCommand(){
+    public RawServoCommand(){
     	requires(Robot.servoSub);
     }
     
     protected void initialize() {
     	if (this.dataSource != null)
-    		value = SmartDashboard.getNumber(dataSource, 0);
-    	Robot.servoSub.set(value);
+    		value = (int)SmartDashboard.getNumber(dataSource, 0);
+    	Robot.servoSub.setRaw(value);
     }
 
     protected void execute() {
@@ -42,4 +44,5 @@ public class ServoCommand extends Command {
 
     protected void interrupted() {
     }
+
 }

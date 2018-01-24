@@ -17,12 +17,14 @@ public class OI {
 		SmartDashboard.putNumber("Servo Stop Value",  0.0);
 		SmartDashboard.putNumber("Servo In Value",    0.2);
 		SmartDashboard.putNumber("Servo Out Value",   0.8);
+		SmartDashboard.putNumber("Servo RAW Value",   128);
 		if (Robot.servoSub.isGood)
 		{
 			SmartDashboard.putData("Servo",      new ServoCommand("Servo Value"));
 			SmartDashboard.putData("Servo Stop", new ServoCommand("Servo Stop Value"));
 			SmartDashboard.putData("Servo In",   new ServoCommand("Servo In Value"));
 			SmartDashboard.putData("Servo Out",  new ServoCommand("Servo Out Value"));
+			SmartDashboard.putData("Servo RAW",  new ServoCommand("Servo RAW Value"));
 		}
 		
 

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+// http://www.andymark.com/product-p/am-3515.htm
 // http://files.andymark.com/PDFs/UsingL16LinearServo.pdf
 public class ServoSubsystem extends Subsystem {
 	//public static double fullIn = 0.18;
@@ -39,9 +40,14 @@ public class ServoSubsystem extends Subsystem {
     	SmartDashboard.putNumber("servo set = ", value);
     	servoA.set(value);
     	servoB.set(value);
-    	
     }
     
+    public void setRaw(int value) {
+    	Robot.log(String.format("servo setRaw = %s",  value));
+    	SmartDashboard.putNumber("servo setRaw = ", value);
+    	servoA.setRaw(value);
+    	servoB.setRaw(value);
+    }
     /*
     public void setPercent(double percent){
     	double value = ((double)percent / 100 ) * (fullOut-fullIn) + fullIn;
