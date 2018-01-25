@@ -4,6 +4,7 @@ import org.usfirst.frc.team5003.robot.commands.DriveStraightWithGyroCommand;
 import org.usfirst.frc.team5003.robot.commands.GroupBuilderCommand;
 import org.usfirst.frc.team5003.robot.commands.RotateWithGyroCommand;
 import org.usfirst.frc.team5003.robot.commands.ServoCommand;
+import org.usfirst.frc.team5003.robot.commands.SingleTalonCommand;
 import org.usfirst.frc.team5003.robot.commands.TalkativeCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -27,6 +28,11 @@ public class OI {
 			SmartDashboard.putData("Servo RAW",  new ServoCommand("Servo RAW Value"));
 		}
 		
+		SmartDashboard.putNumber("Talon Power Value", 0.1);
+		SmartDashboard.putNumber("Talon Duration Value", 2);
+		if (Robot.talonSub.isGood) {
+			SmartDashboard.putData("Talon", new SingleTalonCommand("Talon Power Value", "Talon Duration Value"));
+		}
 
 //		SmartDashboard.putNumber("Rotate Value", 90);
 //		if (Robot.gyroSub.isGood)

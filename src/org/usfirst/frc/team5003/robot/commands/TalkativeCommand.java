@@ -17,7 +17,7 @@ public class TalkativeCommand extends Command {
     	this();
     	this.configuration = configuration;
     	this.duration = secsToRun*1000;
-    	Robot.log(String.format("%s ctor", this.configuration));
+    	//Robot.log(String.format("%s ctor", this.configuration));
     }
     
     public TalkativeCommand() {

@@ -7,6 +7,7 @@ import org.usfirst.frc.team5003.robot.subsystems.DrivetrainSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.EmptySubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.GyroSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.ServoSubsystem;
+import org.usfirst.frc.team5003.robot.subsystems.SingleTalonSubsystem;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -18,6 +19,7 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 	public static Joystick joystick;
 	public static DrivetrainSubsystem drivetrainSub;
+	public static SingleTalonSubsystem talonSub;
 	
 	public static ServoSubsystem servoSub;
 	public static GyroSubsystem gyroSub;
@@ -32,11 +34,13 @@ public class Robot extends TimedRobot {
 			servoSub = new ServoSubsystem();
 			gyroSub = new GyroSubsystem();
 			emptySub = new EmptySubsystem();
+			talonSub = new SingleTalonSubsystem();
 			
 			SmartDashboard.putData(Scheduler.getInstance());
 			SmartDashboard.putData(servoSub);
 	    	SmartDashboard.putData(gyroSub);
 	    	SmartDashboard.putData(emptySub);
+	    	SmartDashboard.putData(talonSub);
 			
 			oi = new OI();
 		}
@@ -75,6 +79,7 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		servoSub.show();
 		gyroSub.show();
+		talonSub.show();
 		//drivetrainSub.show();
 		//SmartDashboard.putNumber("Joy X", joystick.getX());
 		//SmartDashboard.putNumber("Joy Y", joystick.getY());
