@@ -16,6 +16,7 @@ public class SingleTalonSubsystem extends Subsystem {
 	public SingleTalonSubsystem(){
 		try{
 			talon = new Talon(3);
+			talon.stopMotor();
 		}
 		catch (Exception ex) {
 			talon = null;

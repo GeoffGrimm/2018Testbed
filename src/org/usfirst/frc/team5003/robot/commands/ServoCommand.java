@@ -13,6 +13,7 @@ public class ServoCommand extends Command {
     public ServoCommand(String dataSource) {
         this();
         this.dataSource = dataSource;
+        Robot.log(String.format("ctor %s",  dataSource));
     }
     
 	public ServoCommand(double d) {
@@ -25,8 +26,12 @@ public class ServoCommand extends Command {
     }
     
     protected void initialize() {
-    	if (this.dataSource != null)
+    	if (this.dataSource != null) {
+    		Robot.log(String.format("init data source %s",  dataSource));
     		value = SmartDashboard.getNumber(dataSource, 0);
+    		
+    	}
+    	Robot.log(String.format("init %d",  value));
     	Robot.servoSub.set(value);
     }
 
