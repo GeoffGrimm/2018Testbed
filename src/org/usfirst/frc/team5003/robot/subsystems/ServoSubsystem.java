@@ -9,44 +9,50 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // http://www.andymark.com/product-p/am-3515.htm
 // http://files.andymark.com/PDFs/UsingL16LinearServo.pdf
 public class ServoSubsystem extends Subsystem {
-	//public static double fullIn = 0.18;
-	//public static double fullOut = 1.0;
 	private static int chA = 8;
 	private static int chB = 9;
 	public Servo servoA;
 	public Servo servoB;
-	public Boolean isGood = false;
+	public boolean isGood = false;
 
 	public ServoSubsystem(){
-		try{
+		try {
 			servoA = new Servo(chA);
-			servoA.getRaw();
+			servoA.get();
 			servoB = new Servo(chB);
-			servoB.getRaw();
+			servoB.get();
+			isGood = true;
 		}
-		catch (Exception ex){
+		catch (Exception ex) {
 			servoA = null;
 			servoB = null;
+			isGood = false;
 		}
-		if (servoA != null && servoB != null)
-			isGood = true;	
 	}
 
     public void initDefaultCommand() {
     }
     
     public void set(double value) {
-    	Robot.log(String.format("servo set = %s",  value));
-    	SmartDashboard.putNumber("servo set = ", value);
     	servoA.set(value);
     	servoB.set(value);
     }
     
     public void setRaw(int value) {
-    	Robot.log(String.format("servo setRaw = %s",  value));
-    	SmartDashboard.putNumber("servo setRaw = ", value);
     	servoA.setRaw(value);
     	servoB.setRaw(value);
+    }
+    
+    public void show() {
+    	if (isGood) {
+    		SmartDashboard.putNumber("A    ", servoA.get());
+	    	SmartDashboard.putNumber("A Pos", servoA.getPosition());
+	    	SmartDashboard.putNumber("A Raw", servoA.getRaw());
+	    	    	
+	    	SmartDashboard.putNumber("B    ", servoB.get());
+	    	SmartDashboard.putNumber("B Pos", servoB.getPosition());
+	    	SmartDashboard.putNumber("B Raw", servoB.getRaw());
+    	}
     }
     /*
     public void setPercent(double percent){
@@ -59,18 +65,6 @@ public class ServoSubsystem extends Subsystem {
     	servoB.set(value);
     }
     */
-    
-    public void show() {
-    	if (isGood) {
-        	SmartDashboard.putNumber("A    ", servoA.get());
-        	SmartDashboard.putNumber("A Pos", servoA.getPosition());
-        	SmartDashboard.putNumber("A Raw", servoA.getRaw());
-        	    	
-        	SmartDashboard.putNumber("B    ", servoB.get());
-        	SmartDashboard.putNumber("B Pos", servoB.getPosition());
-        	SmartDashboard.putNumber("B Raw", servoB.getRaw());
-    	}
-    }
         
 }
 

@@ -11,15 +11,15 @@ public class GyroSubsystem extends Subsystem {
 	public Boolean isGood = false;
 	
 	public GyroSubsystem(){
-		try{
+		try {
 			gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 			gyro.calibrate();
+			isGood = true;
 		}
 		catch (Exception ex) {
 			gyro = null;
+			isGood = false;
 		}
-		if (gyro != null)
-			isGood = true;
 	}
 
     public void initDefaultCommand() {
@@ -30,9 +30,8 @@ public class GyroSubsystem extends Subsystem {
     }
     
     public void show() {
-    	if (isGood) {
+    	if (isGood)
     		SmartDashboard.putNumber("Gyro Angle",  gyro.getAngle());
-    	}
     }
 }
 

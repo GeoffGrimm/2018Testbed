@@ -9,23 +9,20 @@ public class LimitSwitchWithCounterSubsystem extends Subsystem {
 
 	private DigitalInput limitSwitch;
 	private Counter counter;
-	public Boolean isGood = false;
+	public boolean isGood = false;
 	
 	public LimitSwitchWithCounterSubsystem(){
-		isGood = false;
-		try{
+		try {
 			limitSwitch = new DigitalInput(5);
 			counter = new Counter(limitSwitch);
-			limitSwitch.get();
-			counter.get();
 			counter.reset();
+			isGood = true;
 		}
-		catch (Exception ex){
+		catch (Exception ex) {
 			limitSwitch = null;
 			counter = null;
+			isGood = false;
 		}
-		if (limitSwitch != null && counter != null)
-			isGood = true;
 	}
 
     public void initDefaultCommand() {
@@ -40,8 +37,10 @@ public class LimitSwitchWithCounterSubsystem extends Subsystem {
     }
     
     public void show() {
-    	SmartDashboard.putString("limit switch", String.format("%s",  limitSwitch.get()));
-    	SmartDashboard.putNumber("counter", counter.get());
+    	if (isGood) {
+    		SmartDashboard.putString("limit switch", String.format("%s",  limitSwitch.get()));
+    		SmartDashboard.putNumber("counter", counter.get());
+    	}
     }
     
     

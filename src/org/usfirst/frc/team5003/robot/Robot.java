@@ -10,6 +10,7 @@ import org.usfirst.frc.team5003.robot.subsystems.GyroSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.LimitSwitchWithCounterSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.ServoSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.SingleTalonSubsystem;
+import org.usfirst.frc.team5003.robot.subsystems.UltrasonicSubsystem;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -24,6 +25,7 @@ public class Robot extends TimedRobot {
 	public static SingleTalonSubsystem talonSub;
 	public static LimitSwitchWithCounterSubsystem switchSub;
 	public static AnalogSubsystem analogSub;
+	public static UltrasonicSubsystem ultrasonicSub;
 	
 	public static ServoSubsystem servoSub;
 	public static GyroSubsystem gyroSub;
@@ -37,10 +39,11 @@ public class Robot extends TimedRobot {
 			//drivetrainSub = new DrivetrainSubsystem();
 			servoSub = new ServoSubsystem();
 			gyroSub = new GyroSubsystem();
-			emptySub = new EmptySubsystem();
+//			emptySub = new EmptySubsystem();
 			talonSub = new SingleTalonSubsystem();
 			switchSub = new LimitSwitchWithCounterSubsystem();
 			analogSub = new AnalogSubsystem();
+			ultrasonicSub = new UltrasonicSubsystem();
 			
 //			SmartDashboard.putData(Scheduler.getInstance());
 //			SmartDashboard.putData(servoSub);
@@ -84,15 +87,16 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+
+		SmartDashboard.putNumber("Joy X", joystick.getX());
+		SmartDashboard.putNumber("Joy Y", joystick.getY());
 		servoSub.show();
 		gyroSub.show();
 		talonSub.show();
 		switchSub.show();
 		analogSub.show();
-		
+		ultrasonicSub.show();
 		//drivetrainSub.show();
-		SmartDashboard.putNumber("Joy X", joystick.getX());
-		SmartDashboard.putNumber("Joy Y", joystick.getY());
 	}
 
 	@Override

@@ -1,7 +1,5 @@
 package org.usfirst.frc.team5003.robot.commands;
 
-import java.util.Date;
-
 import org.usfirst.frc.team5003.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;

@@ -5,41 +5,36 @@ import org.usfirst.frc.team5003.robot.commands.DriveWithJoystickCommand;
 
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DrivetrainSubsystem extends Subsystem {
-	Spark driveLeft0;
-	Victor driveLeft1;
-	Spark driveRight0;
-	Victor driveRight1;
+	Spark driveLeft0 = null;
+	Victor driveLeft1 = null;
+	Spark driveRight0 = null;
+	Victor driveRight1 = null;
 	
-	SpeedControllerGroup speedControllerLeft;
-	SpeedControllerGroup speedControllerRight;
+	SpeedControllerGroup speedControllerLeft = null;
+	SpeedControllerGroup speedControllerRight = null;
 	
-	DifferentialDrive differential;
-	public Boolean isGood;
+	DifferentialDrive differential = null;
+	
+	public boolean isGood = false;
 	
 	public DrivetrainSubsystem(){
-		isGood = false;
-		try{
+		try {
 			driveLeft0 = new Spark(3);
-			driveLeft0.stopMotor();
 			driveLeft1 = new Victor(7);
-			driveLeft1.stopMotor();
 			driveRight0 = new Spark(2);
-			driveRight0.stopMotor();
 			driveRight1 = new Victor(6);
-			driveRight1.stopMotor();
 			speedControllerLeft = new SpeedControllerGroup(driveLeft0, driveLeft1);
 			speedControllerRight = new SpeedControllerGroup(driveRight0, driveRight1);
 			differential = new DifferentialDrive(speedControllerLeft, speedControllerRight);	
-			differential.arcadeDrive(0,  0);
+			isGood = true;
 		}
-		catch (Exception ex){
+		catch (Exception ex) {
 			driveLeft0 = null;
 			driveLeft1 = null;
 			driveRight0 = null;
@@ -47,9 +42,8 @@ public class DrivetrainSubsystem extends Subsystem {
 			speedControllerLeft = null;
 			speedControllerRight = null;
 			differential = null;
+			isGood = false;
 		}
-		if (differential != null)
-			isGood = true;
 	}
     
 	public void initDefaultCommand() {
@@ -76,11 +70,11 @@ public class DrivetrainSubsystem extends Subsystem {
     public void show() {
     	if (isGood) {
     		SmartDashboard.putNumber("L0", driveLeft0.get());
-    		SmartDashboard.putNumber("L1", driveLeft1.get());
-    		SmartDashboard.putNumber("R0", driveRight0.get());
-    		SmartDashboard.putNumber("R1", driveRight1.get());
-    		SmartDashboard.putNumber("L", speedControllerLeft.get());
-    		SmartDashboard.putNumber("R", speedControllerRight.get());
+			SmartDashboard.putNumber("L1", driveLeft1.get());
+			SmartDashboard.putNumber("R0", driveRight0.get());
+			SmartDashboard.putNumber("R1", driveRight1.get());
+			SmartDashboard.putNumber("L", speedControllerLeft.get());
+			SmartDashboard.putNumber("R", speedControllerRight.get());
     	}
     }
 }
