@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
 			talonSub = new SingleTalonSubsystem();
 			switchSub = new LimitSwitchWithCounterSubsystem();
 			analogSub = new AnalogSubsystem();
-			ultrasonicSub = new UltrasonicSubsystem();
+			//ultrasonicSub = new UltrasonicSubsystem();
 			
 //			SmartDashboard.putData(Scheduler.getInstance());
 //			SmartDashboard.putData(servoSub);
@@ -95,7 +95,7 @@ public class Robot extends TimedRobot {
 		talonSub.show();
 		switchSub.show();
 		analogSub.show();
-		ultrasonicSub.show();
+		//ultrasonicSub.show();
 		//drivetrainSub.show();
 	}
 

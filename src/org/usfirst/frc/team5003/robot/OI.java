@@ -7,13 +7,23 @@ import org.usfirst.frc.team5003.robot.commands.RotateWithGyroCommand;
 import org.usfirst.frc.team5003.robot.commands.ServoCommand;
 import org.usfirst.frc.team5003.robot.commands.SingleTalonCommand;
 import org.usfirst.frc.team5003.robot.commands.TalkativeCommand;
+
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class OI {
 	
+	public JoystickButton bOpen;
+	public JoystickButton bClose;
+	
 	public OI() {
 		
-		SmartDashboard.putData("Talkative Command On Click", new TalkativeCommand("click", 15));
+		//SmartDashboard.putData("Talkative Command On Click", new TalkativeCommand("click", 15));
+		
+		bOpen = new JoystickButton(Robot.joystick, 7);
+		bClose = new JoystickButton(Robot.joystick, 8);
+		
+		
 		
 		if (Robot.servoSub.isGood) {
 			SmartDashboard.putNumber("Servo Value",       0.5);
@@ -23,6 +33,9 @@ public class OI {
 			SmartDashboard.putData("Servo",      new ServoCommand("Servo Value"));
 			SmartDashboard.putData("Servo In",   new ServoCommand("Servo In Value"));
 			SmartDashboard.putData("Servo Out",  new ServoCommand("Servo Out Value"));
+			
+			bOpen.whenPressed(new ServoCommand("Servo In Value"));
+			bClose.whenPressed(new ServoCommand("Servo Out Value"));;
 			
 			//SmartDashboard.putNumber("Servo RAW Value",   128);
 			//SmartDashboard.putNumber("Servo Stop Value",  0.0);			

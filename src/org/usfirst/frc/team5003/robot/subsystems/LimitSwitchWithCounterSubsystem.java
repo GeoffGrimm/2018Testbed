@@ -13,7 +13,7 @@ public class LimitSwitchWithCounterSubsystem extends Subsystem {
 	
 	public LimitSwitchWithCounterSubsystem(){
 		try {
-			limitSwitch = new DigitalInput(5);
+			limitSwitch = new DigitalInput(0);
 			counter = new Counter(limitSwitch);
 			counter.reset();
 			isGood = true;
