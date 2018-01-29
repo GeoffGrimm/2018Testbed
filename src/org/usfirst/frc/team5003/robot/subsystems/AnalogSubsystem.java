@@ -9,9 +9,9 @@ public class AnalogSubsystem extends Subsystem {
 	private AnalogInput analog = null;
 	public boolean isGood = false;
 	
-	public AnalogSubsystem(){
+	public AnalogSubsystem(int ch){
 		try {
-			analog = new AnalogInput(3);
+			analog = new AnalogInput(ch);
 			analog.getValue();
 			isGood = true;
 		}
@@ -32,6 +32,9 @@ public class AnalogSubsystem extends Subsystem {
 	    	SmartDashboard.putNumber("analog ave voltage",  analog.getAverageVoltage());
 	    	SmartDashboard.putNumber("analog ave bits",     analog.getAverageBits());
     	}
+    }
+    public double getVoltage() {
+    	return analog.getVoltage();
     }
 }
 

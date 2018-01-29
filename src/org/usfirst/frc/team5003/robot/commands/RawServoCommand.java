@@ -23,13 +23,13 @@ public class RawServoCommand extends Command {
     }
 	
     public RawServoCommand(){
-    	requires(Robot.servoSub);
+    	requires(Robot.grabberSub);
     }
     
     protected void initialize() {
     	if (this.dataSource != null)
     		value = (int)SmartDashboard.getNumber(dataSource, 0);
-    	Robot.servoSub.setRaw(value);
+    	Robot.grabberSub.setRaw(value);
     }
 
     protected void execute() {

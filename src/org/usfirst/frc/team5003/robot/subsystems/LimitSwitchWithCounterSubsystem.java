@@ -11,9 +11,9 @@ public class LimitSwitchWithCounterSubsystem extends Subsystem {
 	private Counter counter;
 	public boolean isGood = false;
 	
-	public LimitSwitchWithCounterSubsystem(){
+	public LimitSwitchWithCounterSubsystem(int ch){
 		try {
-			limitSwitch = new DigitalInput(0);
+			limitSwitch = new DigitalInput(3);
 			counter = new Counter(limitSwitch);
 			counter.reset();
 			isGood = true;

@@ -21,14 +21,14 @@ public class ServoCommand extends Command {
     }
 	
     public ServoCommand(){
-    	requires(Robot.servoSub);
+    	requires(Robot.grabberSub);
     }
     
     protected void initialize() {
     	if (this.dataSource != null) {
     		value = SmartDashboard.getNumber(dataSource, 0);
     	}
-    	Robot.servoSub.set(value);
+    	Robot.grabberSub.set(value);
     }
 
     protected void execute() {

@@ -12,9 +12,9 @@ public class SingleTalonSubsystem extends Subsystem {
 	public Talon talon;
 	public boolean isGood = false;
 	
-	public SingleTalonSubsystem(){
+	public SingleTalonSubsystem(int ch){
 		try {
-			talon = new Talon(3);
+			talon = new Talon(ch);
 			talon.get();
 			isGood = true;
 		}

@@ -30,7 +30,7 @@ public class SingleTalonCommand extends Command {
     }
 
     public SingleTalonCommand() {
-        requires(Robot.talonSub);
+        requires(Robot.armTalonSub);
     }
 
     protected void initialize() {
@@ -39,7 +39,7 @@ public class SingleTalonCommand extends Command {
     	if (powerKey != null)
     		power = SmartDashboard.getNumber(powerKey,  0.0);
     	start = new Date().getTime();
-    	Robot.talonSub.set(power);
+    	Robot.armTalonSub.set(power);
    }
 
     protected void execute() {
@@ -53,7 +53,7 @@ public class SingleTalonCommand extends Command {
     }
 
     protected void end() {
-    	Robot.talonSub.set(0);
+    	Robot.armTalonSub.set(0);
     }
 
     protected void interrupted() {

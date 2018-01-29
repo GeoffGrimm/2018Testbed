@@ -8,14 +8,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // http://www.andymark.com/product-p/am-3515.htm
 // http://files.andymark.com/PDFs/UsingL16LinearServo.pdf
-public class ServoSubsystem extends Subsystem {
-	private static int chA = 8;
-	private static int chB = 9;
+public class GrabberSubsystem extends Subsystem {
 	public Servo servoA;
 	public Servo servoB;
 	public boolean isGood = false;
 
-	public ServoSubsystem(){
+	public GrabberSubsystem(int chA, int chB){
 		try {
 			servoA = new Servo(chA);
 			servoA.get();

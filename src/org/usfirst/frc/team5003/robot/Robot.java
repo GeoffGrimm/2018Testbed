@@ -4,12 +4,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.usfirst.frc.team5003.robot.subsystems.AnalogSubsystem;
+import org.usfirst.frc.team5003.robot.subsystems.DigitalInputAccumulator;
 import org.usfirst.frc.team5003.robot.subsystems.DrivetrainSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.EmptySubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.GyroSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.LimitSwitchWithCounterSubsystem;
-import org.usfirst.frc.team5003.robot.subsystems.ServoSubsystem;
+import org.usfirst.frc.team5003.robot.subsystems.GrabberSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.SingleTalonSubsystem;
+import org.usfirst.frc.team5003.robot.subsystems.ThreeChannelEncoderSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.UltrasonicSubsystem;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -22,12 +24,15 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 	public static Joystick joystick;
 	public static DrivetrainSubsystem drivetrainSub;
-	public static SingleTalonSubsystem talonSub;
-	public static LimitSwitchWithCounterSubsystem switchSub;
-	public static AnalogSubsystem analogSub;
+	public static SingleTalonSubsystem armTalonSub;
+	public static LimitSwitchWithCounterSubsystem armSwitchASub;
+	public static LimitSwitchWithCounterSubsystem armSwitchBSub;
+	public static AnalogSubsystem armPotSub;
 	public static UltrasonicSubsystem ultrasonicSub;
+	public static DigitalInputAccumulator armAccSub;
+	public static ThreeChannelEncoderSubsystem threeChannelEncoderSub;
 	
-	public static ServoSubsystem servoSub;
+	public static GrabberSubsystem grabberSub;
 	public static GyroSubsystem gyroSub;
 	public static EmptySubsystem emptySub;
 	
@@ -36,13 +41,22 @@ public class Robot extends TimedRobot {
 		try
 		{
 			joystick = new Joystick(0);
+
+			grabberSub = new GrabberSubsystem(8,9);
+			
+			armTalonSub = new SingleTalonSubsystem(3);
+			armSwitchASub = new LimitSwitchWithCounterSubsystem(3);
+			armSwitchBSub = new LimitSwitchWithCounterSubsystem(4);
+			armPotSub = new AnalogSubsystem(0);
+			armAccSub = new DigitalInputAccumulator(0);
+			threeChannelEncoderSub = new ThreeChannelEncoderSubsystem(1,2,3);
+			
 			//drivetrainSub = new DrivetrainSubsystem();
-			servoSub = new ServoSubsystem();
+			
 			gyroSub = new GyroSubsystem();
 //			emptySub = new EmptySubsystem();
-			talonSub = new SingleTalonSubsystem();
-			switchSub = new LimitSwitchWithCounterSubsystem();
-			analogSub = new AnalogSubsystem();
+
+			//encoderSub = new ThreeChannelEncoderSubsystem(0,1,2);
 			//ultrasonicSub = new UltrasonicSubsystem();
 			
 //			SmartDashboard.putData(Scheduler.getInstance());
@@ -90,11 +104,12 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putNumber("Joy X", joystick.getX());
 		SmartDashboard.putNumber("Joy Y", joystick.getY());
-		servoSub.show();
+		grabberSub.show();
 		gyroSub.show();
-		talonSub.show();
-		switchSub.show();
-		analogSub.show();
+		armTalonSub.show();
+		armSwitchASub.show();
+		armPotSub.show();
+		threeChannelEncoderSub.show();
 		//ultrasonicSub.show();
 		//drivetrainSub.show();
 	}

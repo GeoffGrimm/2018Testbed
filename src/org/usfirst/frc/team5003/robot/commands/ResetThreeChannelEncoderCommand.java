@@ -4,17 +4,14 @@ import org.usfirst.frc.team5003.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
-public class ResetLimitSwitchWithCounterCommand extends Command {
+public class ResetThreeChannelEncoderCommand extends Command {
 
-    public ResetLimitSwitchWithCounterCommand() {
-        requires(Robot.armSwitchASub);
+    public ResetThreeChannelEncoderCommand() {
+        requires(Robot.threeChannelEncoderSub);
     }
 
     protected void initialize() {
-    	Robot.armSwitchASub.reset();
+    	Robot.threeChannelEncoderSub.resetAll();
     }
 
     protected void execute() {

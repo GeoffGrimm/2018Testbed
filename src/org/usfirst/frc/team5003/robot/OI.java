@@ -25,7 +25,7 @@ public class OI {
 		
 		
 		
-		if (Robot.servoSub.isGood) {
+		if (Robot.grabberSub.isGood) {
 			SmartDashboard.putNumber("Servo Value",       0.5);
 			SmartDashboard.putNumber("Servo In Value",    0.2);
 			SmartDashboard.putNumber("Servo Out Value",   0.8);
@@ -43,13 +43,13 @@ public class OI {
 			//SmartDashboard.putData("Servo RAW",  new ServoCommand("Servo RAW Value"));
 		}
 
-		if (Robot.talonSub.isGood) {
+		if (Robot.armTalonSub.isGood) {
 			SmartDashboard.putNumber("Talon Duration Value", 2);
 			SmartDashboard.putNumber("Talon Power Value", 0.1);
 			SmartDashboard.putData("Talon", new SingleTalonCommand("Talon Duration Value", "Talon Power Value"));
 		}
 		
-		if (Robot.switchSub.isGood)
+		if (Robot.armSwitchASub.isGood)
 			SmartDashboard.putData("Reset Limit Switch", new ResetLimitSwitchWithCounterCommand());
 
 		if (Robot.gyroSub.isGood) {

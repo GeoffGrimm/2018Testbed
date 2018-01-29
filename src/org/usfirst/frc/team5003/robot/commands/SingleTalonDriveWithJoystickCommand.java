@@ -7,14 +7,14 @@ import edu.wpi.first.wpilibj.command.Command;
 public class SingleTalonDriveWithJoystickCommand extends Command {
 
     public SingleTalonDriveWithJoystickCommand() {
-        requires(Robot.talonSub);
+        requires(Robot.armTalonSub);
     }
 
     protected void initialize() {
     }
 
     protected void execute() {
-    	Robot.talonSub.driveWithJoystick();
+    	Robot.armTalonSub.driveWithJoystick();
     }
 
     protected boolean isFinished() {
@@ -22,7 +22,7 @@ public class SingleTalonDriveWithJoystickCommand extends Command {
     }
 
     protected void end() {
-    	Robot.talonSub.set(0);
+    	Robot.armTalonSub.set(0);
     }
 
     protected void interrupted() {
