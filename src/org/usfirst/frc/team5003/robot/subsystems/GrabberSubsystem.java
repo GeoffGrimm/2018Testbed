@@ -1,7 +1,5 @@
 package org.usfirst.frc.team5003.robot.subsystems;
 
-import org.usfirst.frc.team5003.robot.Robot;
-
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,11 +32,6 @@ public class GrabberSubsystem extends Subsystem {
     public void set(double value) {
     	servoA.set(value);
     	servoB.set(value);
-    }
-    
-    public void setRaw(int value) {
-    	servoA.setRaw(value);
-    	servoB.setRaw(value);
     }
     
     public void show() {

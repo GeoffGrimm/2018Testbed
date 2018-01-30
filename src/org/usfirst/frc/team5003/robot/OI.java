@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5003.robot;
 
 import org.usfirst.frc.team5003.robot.commands.DriveStraightWithGyroCommand;
+import org.usfirst.frc.team5003.robot.commands.ExtendArmCommand;
 import org.usfirst.frc.team5003.robot.commands.GroupBuilderCommand;
 import org.usfirst.frc.team5003.robot.commands.ResetLimitSwitchWithCounterCommand;
 import org.usfirst.frc.team5003.robot.commands.RotateWithGyroCommand;
@@ -22,25 +23,18 @@ public class OI {
 		
 		bOpen = new JoystickButton(Robot.joystick, 7);
 		bClose = new JoystickButton(Robot.joystick, 8);
-		
-		
-		
+			
 		if (Robot.grabberSub.isGood) {
 			SmartDashboard.putNumber("Servo Value",       0.5);
-			SmartDashboard.putNumber("Servo In Value",    0.2);
-			SmartDashboard.putNumber("Servo Out Value",   0.8);
+			SmartDashboard.putNumber("Servo Open Value",  0.2);
+			SmartDashboard.putNumber("Servo Close Value", 0.8);
 
 			SmartDashboard.putData("Servo",      new ServoCommand("Servo Value"));
-			SmartDashboard.putData("Servo In",   new ServoCommand("Servo In Value"));
-			SmartDashboard.putData("Servo Out",  new ServoCommand("Servo Out Value"));
+			SmartDashboard.putData("Servo Open",   new ServoCommand("Servo Open Value"));
+			SmartDashboard.putData("Servo Close",  new ServoCommand("Servo Close Value"));
 			
-			bOpen.whenPressed(new ServoCommand("Servo In Value"));
-			bClose.whenPressed(new ServoCommand("Servo Out Value"));;
-			
-			//SmartDashboard.putNumber("Servo RAW Value",   128);
-			//SmartDashboard.putNumber("Servo Stop Value",  0.0);			
-			//SmartDashboard.putData("Servo Stop", new ServoCommand("Servo Stop Value"));
-			//SmartDashboard.putData("Servo RAW",  new ServoCommand("Servo RAW Value"));
+			bOpen.whenPressed(new ServoCommand("Servo Open Value"));
+			bClose.whenPressed(new ServoCommand("Servo Close Value"));
 		}
 
 		if (Robot.armTalonSub.isGood) {
@@ -52,10 +46,19 @@ public class OI {
 		if (Robot.armSwitchASub.isGood)
 			SmartDashboard.putData("Reset Limit Switch", new ResetLimitSwitchWithCounterCommand());
 
-		if (Robot.gyroSub.isGood) {
-			SmartDashboard.putNumber("Rotate Value", 90);
-			SmartDashboard.putData("Rotate", new RotateWithGyroCommand("Rotate Value"));
+				
+		if (Robot.armTalonSub.isGood &&
+			Robot.armPotSub.isGood &&
+			Robot.armAccSub.isGood)
+		{
+			SmartDashboard.putNumber("Extend Arm Value", 2.5);
+			SmartDashboard.putData("Extend Arm To", new ExtendArmCommand("Extend Arm Value"));
 		}
+
+//		if (Robot.gyroSub.isGood) {
+//			SmartDashboard.putNumber("Rotate Value", 90);
+//			SmartDashboard.putData("Rotate", new RotateWithGyroCommand("Rotate Value"));
+//		}
 
 
 //		if (Robot.drivetrainSub.isGood && Robot.gyroSub.isGood)

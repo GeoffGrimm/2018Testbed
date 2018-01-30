@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5003.robot.subsystems;
 
+import org.usfirst.frc.team5003.robot.Robot;
+
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -7,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DigitalInputAccumulator extends Subsystem {
 
-	private DigitalInput input;
+	private DigitalInput digInput;
 	private Counter counter;
 	public int start;
 	private int direction;
@@ -15,15 +17,15 @@ public class DigitalInputAccumulator extends Subsystem {
 	
 	public DigitalInputAccumulator(int ch){
 		try {
-			input = new DigitalInput(ch);
-			counter = new Counter(input);
+			digInput = new DigitalInput(ch);
+			counter = new Counter(digInput);
 			counter.reset();
 			start = 0;
 			direction = 1;
 			isGood = true;
 		}
 		catch (Exception ex) {
-			input = null;
+			digInput = null;
 			counter = null;
 			isGood = false;
 		}
@@ -45,8 +47,8 @@ public class DigitalInputAccumulator extends Subsystem {
 	public void show(){
 		if (isGood)
 		{
-			SmartDashboard.putNumber("DIC", input.get()?1:0);
-			SmartDashboard.putNumber("DIC count",  counter.get());
+			SmartDashboard.putNumber("Acc input", digInput.get()?1:0);
+			SmartDashboard.putNumber("Acc count",  counter.get());
 		}
 	}
 
