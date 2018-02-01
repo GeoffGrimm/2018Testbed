@@ -38,8 +38,8 @@ public class LimitSwitchWithCounterSubsystem extends Subsystem {
     
     public void show() {
     	if (isGood) {
-    		SmartDashboard.putString("limit switch", String.format("%s",  limitSwitch.get()));
-    		SmartDashboard.putNumber("counter", counter.get());
+    		SmartDashboard.putString("Limit Switch", String.format("%s",  limitSwitch.get()));
+    		SmartDashboard.putNumber("Counter", counter.get());
     	}
     }
     

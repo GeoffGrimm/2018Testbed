@@ -4,14 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.usfirst.frc.team5003.robot.subsystems.AnalogSubsystem;
-import org.usfirst.frc.team5003.robot.subsystems.DigitalInputAccumulator;
 import org.usfirst.frc.team5003.robot.subsystems.DrivetrainSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.EmptySubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.GyroSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.LimitSwitchWithCounterSubsystem;
+import org.usfirst.frc.team5003.robot.subsystems.ProtectedControllerSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.GrabberSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.SingleTalonSubsystem;
-import org.usfirst.frc.team5003.robot.subsystems.ThreeChannelEncoderSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.UltrasonicSubsystem;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -28,16 +27,16 @@ public class Robot extends TimedRobot {
 
 	public static SingleTalonSubsystem armTalonSub;
 	public static AnalogSubsystem armPotSub;
-	public static DigitalInputAccumulator armAccSub;
 	public static LimitSwitchWithCounterSubsystem armSwitchASub;
 	public static LimitSwitchWithCounterSubsystem armSwitchBSub;
 
 	public static GyroSubsystem gyroSub;
-	public static ThreeChannelEncoderSubsystem threeChannelEncoderSub;
 	
 	public static EmptySubsystem emptySub;
 	public static DrivetrainSubsystem drivetrainSub;
 	public static UltrasonicSubsystem ultrasonicSub;
+	
+	public static ProtectedControllerSubsystem protectedController;
 
 	
 	@Override
@@ -49,11 +48,13 @@ public class Robot extends TimedRobot {
 			
 			grabberSub = new GrabberSubsystem(8,9);
 			
-			armTalonSub = new SingleTalonSubsystem(0);
-			armPotSub = new AnalogSubsystem(0);
-			armAccSub = new DigitalInputAccumulator(0);
-			armSwitchASub = new LimitSwitchWithCounterSubsystem(8);
-			armSwitchBSub = new LimitSwitchWithCounterSubsystem(9);
+//			armTalonSub = new SingleTalonSubsystem(0);
+//			armPotSub = new AnalogSubsystem(0);
+//			armSwitchASub = new LimitSwitchWithCounterSubsystem(8);
+//			armSwitchBSub = new LimitSwitchWithCounterSubsystem(9);
+			
+			//protectedController = new ProtectedController(3, 3, 1, 4);
+			protectedController = new ProtectedControllerSubsystem(3,3,4,5,-2048, 2048);
 						
 			oi = new OI();
 		}
@@ -95,14 +96,17 @@ public class Robot extends TimedRobot {
 		
 		grabberSub.show();
 		
-		armTalonSub.show();
-		armPotSub.show();
-		armAccSub.show();
-		armSwitchASub.show();
-		armSwitchBSub.show();
+//		armTalonSub.show();
+//		armPotSub.show();
+//		armAccSub.show();
+//		armSwitchASub.show();
+//		armSwitchBSub.show();
+		
+		protectedController.show();
 		
 		//////////////////////////////////
 		Scheduler.getInstance().run();
+		//////////////////////////////////
 	}
 
 	@Override

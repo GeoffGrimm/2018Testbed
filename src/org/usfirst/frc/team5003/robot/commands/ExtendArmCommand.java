@@ -29,16 +29,13 @@ public class ExtendArmCommand extends Command {
 
     protected void initialize() {
     	start = Robot.armPotSub.getVoltage();
-    	//start = Robot.armCounterSub.start;
     	
     	startDirection = direction(start, destination);
-    	//Robot.armCounterSub.setDirection(startDirection);
     	destination = SmartDashboard.getNumber(dataSource, start);
     }
 
     protected void execute() {
     	double current = Robot.armPotSub.getVoltage();
-    	// double current = Robot.armAccSub.get();
     	
     	int currentDirection = direction(current, destination);
     	if (currentDirection != startDirection)
@@ -51,7 +48,6 @@ public class ExtendArmCommand extends Command {
     }
 
     protected boolean isFinished() {
-    	Robot.armAccSub.updateAndReset();
         return isDone;
     }
     
@@ -63,6 +59,8 @@ public class ExtendArmCommand extends Command {
     	end();
     }
     
+    // returns +1 if from < to, meaning we move to the right in a positive direction and make the arm longer
+    // returns -1 if need to make arm shorter
     protected int direction(double from, double to) {
     	return from < to?1:-1;
     }

@@ -5,9 +5,10 @@ import org.usfirst.frc.team5003.robot.commands.ExtendArmCommand;
 import org.usfirst.frc.team5003.robot.commands.GroupBuilderCommand;
 import org.usfirst.frc.team5003.robot.commands.ResetLimitSwitchWithCounterCommand;
 import org.usfirst.frc.team5003.robot.commands.RotateWithGyroCommand;
-import org.usfirst.frc.team5003.robot.commands.ServoCommand;
+import org.usfirst.frc.team5003.robot.commands.GrabberCommand;
 import org.usfirst.frc.team5003.robot.commands.SingleTalonCommand;
 import org.usfirst.frc.team5003.robot.commands.TalkativeCommand;
+import org.usfirst.frc.team5003.robot.commands.ResetEncoderOnControllerCommand;
 
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,35 +26,39 @@ public class OI {
 		bClose = new JoystickButton(Robot.joystick, 8);
 			
 		if (Robot.grabberSub.isGood) {
-			SmartDashboard.putNumber("Servo Value",       0.5);
-			SmartDashboard.putNumber("Servo Open Value",  0.2);
-			SmartDashboard.putNumber("Servo Close Value", 0.8);
+			SmartDashboard.putNumber("Grabber Value",       0.5);
+			SmartDashboard.putNumber("Grabber Open Value",  0.2);
+			SmartDashboard.putNumber("Grabber Close Value", 0.8);
 
-			SmartDashboard.putData("Servo",      new ServoCommand("Servo Value"));
-			SmartDashboard.putData("Servo Open",   new ServoCommand("Servo Open Value"));
-			SmartDashboard.putData("Servo Close",  new ServoCommand("Servo Close Value"));
+			SmartDashboard.putData("Grabber",      new GrabberCommand("Grabber Value"));
+			SmartDashboard.putData("Grabber Open",   new GrabberCommand("Grabber Open Value"));
+			SmartDashboard.putData("Grabber Close",  new GrabberCommand("Grabber Close Value"));
 			
-			bOpen.whenPressed(new ServoCommand("Servo Open Value"));
-			bClose.whenPressed(new ServoCommand("Servo Close Value"));
-		}
-
-		if (Robot.armTalonSub.isGood) {
-			SmartDashboard.putNumber("Talon Duration Value", 2);
-			SmartDashboard.putNumber("Talon Power Value", 0.1);
-			SmartDashboard.putData("Talon", new SingleTalonCommand("Talon Duration Value", "Talon Power Value"));
+			bOpen.whenPressed(new GrabberCommand("Grabber Open Value"));
+			bClose.whenPressed(new GrabberCommand("Grabber Close Value"));
 		}
 		
-		if (Robot.armSwitchASub.isGood)
-			SmartDashboard.putData("Reset Limit Switch", new ResetLimitSwitchWithCounterCommand());
-
-				
-		if (Robot.armTalonSub.isGood &&
-			Robot.armPotSub.isGood &&
-			Robot.armAccSub.isGood)
-		{
-			SmartDashboard.putNumber("Extend Arm Value", 2.5);
-			SmartDashboard.putData("Extend Arm To", new ExtendArmCommand("Extend Arm Value"));
+		if (Robot.protectedController.isGood && Robot.protectedController.enc != null) {
+			SmartDashboard.putData("Reset Controller Encoder", new ResetEncoderOnControllerCommand());
 		}
+
+//		if (Robot.armTalonSub.isGood) {
+//			SmartDashboard.putNumber("Talon Duration Value", 2);
+//			SmartDashboard.putNumber("Talon Power Value", 0.1);
+//			SmartDashboard.putData("Talon", new SingleTalonCommand("Talon Duration Value", "Talon Power Value"));
+//		}
+//		
+//		if (Robot.armSwitchASub.isGood)
+//			SmartDashboard.putData("Reset Limit Switch", new ResetLimitSwitchWithCounterCommand());
+//
+//				
+//		if (Robot.armTalonSub.isGood &&
+//			Robot.armPotSub.isGood &&
+//			Robot.armAccSub.isGood)
+//		{
+//			SmartDashboard.putNumber("Extend Arm Value", 2.5);
+//			SmartDashboard.putData("Extend Arm To", new ExtendArmCommand("Extend Arm Value"));
+//		}
 
 //		if (Robot.gyroSub.isGood) {
 //			SmartDashboard.putNumber("Rotate Value", 90);

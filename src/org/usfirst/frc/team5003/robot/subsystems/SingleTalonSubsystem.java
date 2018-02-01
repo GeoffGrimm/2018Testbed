@@ -33,12 +33,12 @@ public class SingleTalonSubsystem extends Subsystem {
     }
     
     public void driveWithJoystick() {
-    	talon.set(Robot.joystick.getY());
+    	talon.set(Robot.joystick.getX());
     }
     
     public void show() {
     	if (isGood)
-    		SmartDashboard.putNumber("talon", talon.get());
+    		SmartDashboard.putNumber("Talon", talon.get());
     }
 }
 
