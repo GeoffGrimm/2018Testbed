@@ -7,14 +7,16 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SingleTalonSubsystem extends Subsystem {
+public class ControllerSubsystem extends Subsystem {
 
+	public int ch;
 	public Talon talon;
 	public boolean isGood = false;
 	
-	public SingleTalonSubsystem(int ch){
+	public ControllerSubsystem(int ch){
 		try {
-			talon = new Talon(ch);
+			this.ch = ch;
+			talon = new Talon(this.ch);
 			talon.get();
 			isGood = true;
 		}
@@ -25,7 +27,7 @@ public class SingleTalonSubsystem extends Subsystem {
 	}
 
     public void initDefaultCommand() {
-    	setDefaultCommand(new SingleTalonDriveWithJoystickCommand());
+    	//setDefaultCommand(new SingleTalonDriveWithJoystickCommand());
     }
     
     public void set(double value) {
@@ -38,7 +40,7 @@ public class SingleTalonSubsystem extends Subsystem {
     
     public void show() {
     	if (isGood)
-    		SmartDashboard.putNumber("Talon", talon.get());
+    		SmartDashboard.putNumber(String.format("Talon on %d", ch), talon.get());
     }
 }
 

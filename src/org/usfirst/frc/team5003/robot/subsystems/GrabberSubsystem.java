@@ -37,10 +37,10 @@ public class GrabberSubsystem extends Subsystem {
     public void show() {
     	if (isGood) {
     		SmartDashboard.putNumber("Grabber A    ", servoA.get());
-	    	SmartDashboard.putNumber("Grabber A Raw", servoA.getRaw());
+	    	//SmartDashboard.putNumber("Grabber A Raw", servoA.getRaw());
 	    	    	
 	    	SmartDashboard.putNumber("Grabber B    ", servoB.get());
-	    	SmartDashboard.putNumber("Grabber B Raw", servoB.getRaw());
+	    	//SmartDashboard.putNumber("Grabber B Raw", servoB.getRaw());
     	}
     }
     /*

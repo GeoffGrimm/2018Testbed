@@ -21,14 +21,14 @@ public class GrabberCommand extends Command {
     }
 	
     public GrabberCommand(){
-    	requires(Robot.grabberSub);
+    	requires(Robot.grabber);
     }
     
     protected void initialize() {
     	if (this.dataSource != null) {
     		value = SmartDashboard.getNumber(dataSource, 0);
     	}
-    	Robot.grabberSub.set(value);
+    	Robot.grabber.set(value);
     }
 
     protected void execute() {

@@ -24,7 +24,7 @@ public class ExtendArmCommand extends Command {
         requires(Robot.armPotSub);
         requires(Robot.armSwitchASub);
         requires(Robot.armSwitchBSub);
-        requires(Robot.armTalonSub);
+        requires(Robot.armControllerSub);
     }
 
     protected void initialize() {
@@ -43,7 +43,7 @@ public class ExtendArmCommand extends Command {
     	else {
     		double speed = 0.3;
     		speed = 0.2 + ((0.8) * Math.abs((current-destination) / (start-destination)));
-    		Robot.armTalonSub.set(speed * startDirection);
+    		Robot.controllerSub.set(speed * startDirection);
     	}
     }
 
@@ -52,7 +52,7 @@ public class ExtendArmCommand extends Command {
     }
     
     protected void end() {
-    	Robot.armTalonSub.set(0);
+    	Robot.controllerSub.set(0);
     }
     
     protected void interrupted() {

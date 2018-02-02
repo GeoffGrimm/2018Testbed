@@ -10,7 +10,7 @@ import org.usfirst.frc.team5003.robot.subsystems.GyroSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.LimitSwitchWithCounterSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.ProtectedControllerSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.GrabberSubsystem;
-import org.usfirst.frc.team5003.robot.subsystems.SingleTalonSubsystem;
+import org.usfirst.frc.team5003.robot.subsystems.ControllerSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.UltrasonicSubsystem;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -23,12 +23,15 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 	public static Joystick joystick;
 	
-	public static GrabberSubsystem grabberSub;
+	public static GrabberSubsystem grabber;
 
-	public static SingleTalonSubsystem armTalonSub;
+	public static ControllerSubsystem armControllerSub;
 	public static AnalogSubsystem armPotSub;
 	public static LimitSwitchWithCounterSubsystem armSwitchASub;
 	public static LimitSwitchWithCounterSubsystem armSwitchBSub;
+	
+	public static ControllerSubsystem actuator;
+	public static ControllerSubsystem gear;
 
 	public static GyroSubsystem gyroSub;
 	
@@ -44,9 +47,9 @@ public class Robot extends TimedRobot {
 		try
 		{
 			joystick = new Joystick(0);
-			gyroSub = new GyroSubsystem();
+			//gyroSub = new GyroSubsystem();
 			
-			grabberSub = new GrabberSubsystem(8,9);
+			grabber = new GrabberSubsystem(8,9);
 			
 //			armTalonSub = new SingleTalonSubsystem(0);
 //			armPotSub = new AnalogSubsystem(0);
@@ -54,7 +57,10 @@ public class Robot extends TimedRobot {
 //			armSwitchBSub = new LimitSwitchWithCounterSubsystem(9);
 			
 			//protectedController = new ProtectedController(3, 3, 1, 4);
-			protectedController = new ProtectedControllerSubsystem(3,3,4,5,-2048, 2048);
+			//protectedController = new ProtectedControllerSubsystem(3,3,4,5,-2048, 2048);
+			
+			actuator = new ControllerSubsystem(6);
+			gear = new ControllerSubsystem(7);
 						
 			oi = new OI();
 		}
@@ -90,11 +96,11 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putNumber("Joy X", joystick.getX());
-		SmartDashboard.putNumber("Joy Y", joystick.getY());
-		gyroSub.show();
+		//SmartDashboard.putNumber("Joy X", joystick.getX());
+		//SmartDashboard.putNumber("Joy Y", joystick.getY());
+		//gyroSub.show();
 		
-		grabberSub.show();
+		//grabber.show();
 		
 //		armTalonSub.show();
 //		armPotSub.show();
@@ -102,7 +108,10 @@ public class Robot extends TimedRobot {
 //		armSwitchASub.show();
 //		armSwitchBSub.show();
 		
-		protectedController.show();
+		//protectedController.show();
+		
+		//actuator.show();
+		//gear.show();
 		
 		//////////////////////////////////
 		Scheduler.getInstance().run();

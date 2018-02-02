@@ -7,7 +7,7 @@ import org.usfirst.frc.team5003.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SingleTalonCommand extends Command {
+public class DriveWithDurationAndPowerCommand extends Command {
 	String durationKey = null;
 	String powerKey = null;
 	double duration;
@@ -17,19 +17,19 @@ public class SingleTalonCommand extends Command {
 	
 	double start;
 
-	public SingleTalonCommand(String durationKey, String powerKey) {
+	public DriveWithDurationAndPowerCommand(String durationKey, String powerKey) {
 		this();
 		this.durationKey = durationKey;
 		this.powerKey = powerKey;
 	}
 	
-    public SingleTalonCommand(double secsDuration, double power) {
+    public DriveWithDurationAndPowerCommand(double secsDuration, double power) {
     	this();
     	this.duration = secsDuration * 1000;
     	this.power = power;
     }
 
-    public SingleTalonCommand() {
+    public DriveWithDurationAndPowerCommand() {
         requires(Robot.armTalonSub);
     }
 
