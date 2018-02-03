@@ -2,37 +2,38 @@ package org.usfirst.frc.team5003.robot.commands;
 
 import org.usfirst.frc.team5003.robot.subsystems.ControllerSubsystem;
 
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveWithPowerCommand extends Command {
-	ControllerSubsystem talon;
+	ControllerSubsystem controller;
 	String powerKey;
 	double power;
 	int direction;
 
-    public DriveWithPowerCommand(ControllerSubsystem talon, String powerKey, int direction) {
-    	this.talon = talon;
+    public DriveWithPowerCommand(ControllerSubsystem controller, String powerKey, int direction) {
+    	this.controller = controller;
     	this.powerKey = powerKey;
     	this.direction = direction;
-        requires(this.talon);
+        requires(this.controller);
     }
 
     protected void initialize() {
     	power = SmartDashboard.getNumber(powerKey,  0.0);
+    	controller.set(power * direction);
     }
 
     protected void execute() {
-    	talon.set(power * direction);
+    	
     }
 
+    // hooked up to joystick button, just exit right away and come around again?
     protected boolean isFinished() {
         return false;
     }
 
     protected void end() {
-    	talon.set(0);
+    	controller.set(0);
     }
 
     protected void interrupted() {

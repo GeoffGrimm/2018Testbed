@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5003.robot.subsystems;
 
+import org.usfirst.frc.team5003.robot.Robot;
+
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,6 +25,7 @@ public class GrabberSubsystem extends Subsystem {
 			servoA = null;
 			servoB = null;
 			isGood = false;
+			Robot.log(String.format("Grabber on %d failed", chA));
 		}
 	}
 

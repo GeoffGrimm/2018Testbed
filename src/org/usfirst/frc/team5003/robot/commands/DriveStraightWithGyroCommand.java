@@ -31,7 +31,7 @@ public class DriveStraightWithGyroCommand extends Command {
     	this.power = power;
     }
     public DriveStraightWithGyroCommand() {
-    	requires(Robot.drivetrainSub);
+    	requires(Robot.drivetrain);
     	requires(Robot.gyroSub);
     }
 
@@ -48,14 +48,14 @@ public class DriveStraightWithGyroCommand extends Command {
     	//Robot.drivetrainSub.arcadeDrive(power, 0);
     	double delta = heading - Robot.gyroSub.getAngle();
     	double correction = -delta / 180; // 100% power if 180 degrees off, 0% if right on
-    	Robot.drivetrainSub.arcadeDrive(power, correction);
+    	Robot.drivetrain.arcadeDrive(power, correction);
     }
 
     protected boolean isFinished() {
     	Date now = new Date();
     	if (now.getTime() - start > duration)
     	{
-    		Robot.drivetrainSub.stop();
+    		Robot.drivetrain.stop();
     		return true;
     	}
         return false;

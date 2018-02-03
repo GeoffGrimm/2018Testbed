@@ -24,7 +24,7 @@ public class RotateWithGyroCommand extends Command {
     }
     
     public RotateWithGyroCommand() {
-    	requires(Robot.drivetrainSub);
+    	requires(Robot.drivetrain);
     	requires(Robot.gyroSub);    	
     }
 
@@ -48,7 +48,7 @@ public class RotateWithGyroCommand extends Command {
     		finished = true;
     	}
     	
-    	Robot.drivetrainSub.tankDrive(power, -power);
+    	Robot.drivetrain.tankDrive(power, -power);
     }
 
     protected boolean isFinished() {
@@ -56,7 +56,7 @@ public class RotateWithGyroCommand extends Command {
     }
 
     protected void end() {
-    	Robot.drivetrainSub.stop();
+    	Robot.drivetrain.stop();
     }
 
     protected void interrupted() {

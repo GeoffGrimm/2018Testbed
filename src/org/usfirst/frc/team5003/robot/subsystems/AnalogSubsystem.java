@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5003.robot.subsystems;
 
+import org.usfirst.frc.team5003.robot.Robot;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,6 +20,7 @@ public class AnalogSubsystem extends Subsystem {
 		catch (Exception ex) {
 			analog = null;
 			isGood = false;
+			Robot.log(String.format("Analog on %d failed", ch));
 		}
 	}
    

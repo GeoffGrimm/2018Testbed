@@ -21,21 +21,19 @@ public class ExtendArmCommand extends Command {
 	}
     
 	public ExtendArmCommand() {
-        requires(Robot.armPotSub);
-        requires(Robot.armSwitchASub);
-        requires(Robot.armSwitchBSub);
-        requires(Robot.armControllerSub);
+        requires(Robot.gearPot);
+        requires(Robot.gearController);
     }
 
     protected void initialize() {
-    	start = Robot.armPotSub.getVoltage();
+    	start = Robot.gearPot.getVoltage();
     	
     	startDirection = direction(start, destination);
     	destination = SmartDashboard.getNumber(dataSource, start);
     }
 
     protected void execute() {
-    	double current = Robot.armPotSub.getVoltage();
+    	double current = Robot.gearPot.getVoltage();
     	
     	int currentDirection = direction(current, destination);
     	if (currentDirection != startDirection)
@@ -43,7 +41,7 @@ public class ExtendArmCommand extends Command {
     	else {
     		double speed = 0.3;
     		speed = 0.2 + ((0.8) * Math.abs((current-destination) / (start-destination)));
-    		Robot.controllerSub.set(speed * startDirection);
+    		Robot.gearController.set(speed * startDirection);
     	}
     }
 
@@ -52,7 +50,7 @@ public class ExtendArmCommand extends Command {
     }
     
     protected void end() {
-    	Robot.controllerSub.set(0);
+    	Robot.gearController.set(0);
     }
     
     protected void interrupted() {

@@ -2,12 +2,13 @@ package org.usfirst.frc.team5003.robot.commands;
 
 import java.util.Date;
 
-import org.usfirst.frc.team5003.robot.Robot;
+import org.usfirst.frc.team5003.robot.subsystems.ControllerSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveWithDurationAndPowerCommand extends Command {
+	ControllerSubsystem controller;
 	String durationKey = null;
 	String powerKey = null;
 	double duration;
@@ -17,29 +18,18 @@ public class DriveWithDurationAndPowerCommand extends Command {
 	
 	double start;
 
-	public DriveWithDurationAndPowerCommand(String durationKey, String powerKey) {
-		this();
+	public DriveWithDurationAndPowerCommand(ControllerSubsystem controller, String durationKey, String powerKey) {
+    	this.controller = controller;
 		this.durationKey = durationKey;
 		this.powerKey = powerKey;
-	}
+        requires(this.controller);
+        }
 	
-    public DriveWithDurationAndPowerCommand(double secsDuration, double power) {
-    	this();
-    	this.duration = secsDuration * 1000;
-    	this.power = power;
-    }
-
-    public DriveWithDurationAndPowerCommand() {
-        requires(Robot.armTalonSub);
-    }
-
     protected void initialize() {
-    	if (durationKey != null)
-    		duration = SmartDashboard.getNumber(durationKey,  0.0) * 1000;
-    	if (powerKey != null)
-    		power = SmartDashboard.getNumber(powerKey,  0.0);
+   		duration = SmartDashboard.getNumber(durationKey,  0.0) * 1000;
+   		power = SmartDashboard.getNumber(powerKey,  0.0);
     	start = new Date().getTime();
-    	Robot.armTalonSub.set(power);
+    	controller.set(power);
    }
 
     protected void execute() {
@@ -53,9 +43,10 @@ public class DriveWithDurationAndPowerCommand extends Command {
     }
 
     protected void end() {
-    	Robot.armTalonSub.set(0);
+    	controller.set(0);
     }
 
     protected void interrupted() {
+    	end();
     }
 }

@@ -5,64 +5,103 @@ import java.util.Date;
 
 import org.usfirst.frc.team5003.robot.subsystems.AnalogSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.DrivetrainSubsystem;
-import org.usfirst.frc.team5003.robot.subsystems.EmptySubsystem;
+import org.usfirst.frc.team5003.robot.subsystems.EncoderSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.GyroSubsystem;
-import org.usfirst.frc.team5003.robot.subsystems.LimitSwitchWithCounterSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.ProtectedControllerSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.GrabberSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.ControllerSubsystem;
-import org.usfirst.frc.team5003.robot.subsystems.UltrasonicSubsystem;
-
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 	public static OI oi;
-	public static Joystick joystick;
+	public static Joystick xbox;
 	
 	public static GrabberSubsystem grabber;
 
-	public static ControllerSubsystem armControllerSub;
-	public static AnalogSubsystem armPotSub;
-	public static LimitSwitchWithCounterSubsystem armSwitchASub;
-	public static LimitSwitchWithCounterSubsystem armSwitchBSub;
+	public static ControllerSubsystem controller;
 	
-	public static ControllerSubsystem actuator;
-	public static ControllerSubsystem gear;
-
+	public static ControllerSubsystem actuatorController;
+	public static AnalogSubsystem actuatorPot;
+	
+	public static ControllerSubsystem gearController;
+	public static AnalogSubsystem gearPot;
+	
 	public static GyroSubsystem gyroSub;
 	
-	public static EmptySubsystem emptySub;
-	public static DrivetrainSubsystem drivetrainSub;
-	public static UltrasonicSubsystem ultrasonicSub;
+	public static DrivetrainSubsystem drivetrain;
 	
 	public static ProtectedControllerSubsystem protectedController;
-
+	
+	public static EncoderSubsystem encoder;
+	
+	public static int GrabberAPwm = 8;
+	public static int GrabberBPwm = 9;
+	
+	public static int ControllerPwm = 5;
+	
+	public static int ActuatorControllerPwm = 6;
+	public static int ActuatorPotAnalog = 0;
+	
+	public static int GearControllerPwm = 7;
+	public static int GearPotAnalog = 1;
+	
+	public static int ProtectedControllerPwm = 4;
+	public static int ProtectedControllerADio = 0;
+	public static int ProtectedControllerBDio = 1;
+	public static int ProtectedControllerXDio = 2;
+	public static int ProtectedControllerPotAnalog = 2;
+	public static int ProtectedControllerSw0Dio = 0;
+	public static int ProtectedControllerSw1Dio = 1;
+	
+	public static int Left0Pwm = 0;
+	public static int Left1Pwm = 1;
+	public static int Right0Pwm = 2;
+	public static int Right1Pwm = 3;
+	
+	
+	
+	
 	
 	@Override
 	public void robotInit() {
 		try
 		{
-			joystick = new Joystick(0);
-			//gyroSub = new GyroSubsystem();
+			//xbox = new XboxController(0);
+			xbox = new Joystick(0);
 			
-			grabber = new GrabberSubsystem(8,9);
+			//drivetrain = new DrivetrainSubsystem(Left0Pwm, Left1Pwm, Right0Pwm, Right1Pwm);
 			
-//			armTalonSub = new SingleTalonSubsystem(0);
-//			armPotSub = new AnalogSubsystem(0);
-//			armSwitchASub = new LimitSwitchWithCounterSubsystem(8);
-//			armSwitchBSub = new LimitSwitchWithCounterSubsystem(9);
+			grabber = new GrabberSubsystem(GrabberAPwm, GrabberBPwm);
 			
-			//protectedController = new ProtectedController(3, 3, 1, 4);
-			//protectedController = new ProtectedControllerSubsystem(3,3,4,5,-2048, 2048);
+//			protectedController = new ProtectedControllerSubsystem(
+//					ProtectedControllerPwm,
+//					ProtectedControllerADio, 
+//					ProtectedControllerBDio, 
+//					ProtectedControllerXDio,
+//					-2048, 2048);
+//			protectedController = new ProtectedControllerSubsystem(
+//					ProtectedControllerPwm,
+//					ProtectedControllerPotAnalog,
+//					1, 4);
+			protectedController = new ProtectedControllerSubsystem(
+					ProtectedControllerPwm,
+					ProtectedControllerSw0Dio,
+					ProtectedControllerSw1Dio);
 			
-			actuator = new ControllerSubsystem(6);
-			gear = new ControllerSubsystem(7);
-						
+			//controller = new ControllerSubsystem(ControllerPwm);
+			
+			actuatorController = new ControllerSubsystem(ActuatorControllerPwm);
+			actuatorPot = new AnalogSubsystem(ActuatorPotAnalog);
+			
+			gearController = new ControllerSubsystem(GearControllerPwm);
+			gearPot = new AnalogSubsystem(GearPotAnalog);
+			//encoder = new EncoderSubsystem(0, 1, 2);
 			oi = new OI();
+			
 		}
 		catch (Exception ex)
 		{
@@ -112,6 +151,13 @@ public class Robot extends TimedRobot {
 		
 		//actuator.show();
 		//gear.show();
+		
+		//encoder.show();
+		//gearPot.show();
+		
+		protectedController.show();
+		
+		SmartDashboard.putNumber("x", xbox.getX());
 		
 		//////////////////////////////////
 		Scheduler.getInstance().run();

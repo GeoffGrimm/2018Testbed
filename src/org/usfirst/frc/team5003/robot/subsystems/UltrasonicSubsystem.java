@@ -22,8 +22,8 @@ public class UltrasonicSubsystem extends Subsystem {
 		catch (Exception ex) {
 			ultrasonic = null;
 			isGood = false;
-			Robot.log(ex.getMessage());
-			
+			Robot.log(String.format("Ultrasonic on %d failed", 2));
+			Robot.log(ex.getMessage());	
 		}
 	}
     public void initDefaultCommand() {

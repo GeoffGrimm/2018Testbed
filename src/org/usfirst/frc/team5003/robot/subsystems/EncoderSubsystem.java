@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5003.robot.subsystems;
 
+import org.usfirst.frc.team5003.robot.Robot;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -10,6 +12,7 @@ public class EncoderSubsystem extends Subsystem {
 	boolean isGood;
 	
 	public EncoderSubsystem(int chA, int chB, int chX) {
+		Robot.log("encoder ctor");
 		try {
 			encoder  = new Encoder(chA, chB, chX);
 			encoder.reset();
@@ -17,7 +20,9 @@ public class EncoderSubsystem extends Subsystem {
 		}
 		catch (Exception ex) {
 			isGood = false;
+			Robot.log(String.format("Encoder on %d failed", chA));
 		}
+
 	}
 	
 	public void show() {

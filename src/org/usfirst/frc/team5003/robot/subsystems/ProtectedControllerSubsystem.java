@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ProtectedControllerSubsystem extends Subsystem {
 
-	public Talon controller;
+	public Talon talon;
 	public AnalogInput pot;
 	public Encoder enc;
 	public DigitalInput sw0, sw1;
@@ -23,22 +23,23 @@ public class ProtectedControllerSubsystem extends Subsystem {
 	
 	public boolean isGood = false;
 
+	// protected by pot
+	public ProtectedControllerSubsystem(int controllerCh, int potCh, double minPos, double maxPos){
+		this(controllerCh, potCh, -1, -1, -1, -1, -1, minPos, maxPos);
+	}	
+	// protected by encoder
+	public ProtectedControllerSubsystem(int controllerCh, int chA, int chB, int chX, double minPos, double maxPos){
+		this(controllerCh, -1, chA, chB, chX, -1, -1, minPos, maxPos);
+	}
+	// protected by switches
 	public ProtectedControllerSubsystem(int controllerCh, int ch0, int ch1){
 		this(controllerCh, -1, -1, -1, -1, ch0, ch1, 0, 0);
 	}
 
-	public ProtectedControllerSubsystem(int controllerCh, int chA, int chB, int chX, double minPos, double maxPos){
-		this(controllerCh, -1, chA, chB, chX, -1, -1, minPos, maxPos);
-	}
-	
-	public ProtectedControllerSubsystem(int controllerCh, int potCh, double minPos, double maxPos){
-		this(controllerCh, potCh, -1, -1, -1, -1, -1, minPos, maxPos);
-	}
-
 	public ProtectedControllerSubsystem(int controllerCh, int potCh, int chA, int chB, int chX, int ch0, int ch1, double minPos, double maxPos){
 		try {
-			controller = new Talon(controllerCh);
-			controller.set(0);
+			talon = new Talon(controllerCh);
+			talon.set(0);
 			pot = null;
 			enc = null;
 			sw0 = null;
@@ -63,10 +64,13 @@ public class ProtectedControllerSubsystem extends Subsystem {
 			isGood = true;
 		}
 		catch (Exception ex) {
-			controller = null;
+			talon = null;
 			pot = null;
 			enc = null;
+			sw0 = null;
+			sw1 = null;
 			isGood = false;
+			Robot.log(String.format("Protected controller on %d failed", controllerCh));
 		}
 	}
 	
@@ -78,15 +82,9 @@ public class ProtectedControllerSubsystem extends Subsystem {
 		if ((speed < 0 && getPosition() < minPos) ||
 		    (speed > 0 && getPosition() > maxPos))
 			speed = 0;
-		controller.set(speed * 0.10);  // slow it down so don't hose pot
+		talon.set(speed * 0.10);  // slow it down so don't hose pot
 	}
     
-    public void resetEncoder() {
-    	enc.reset();
-    }
-    public double getSpeed() {
-    	return controller.get();
-    }
     public double getPosition() {
     	if (pot != null)
     		return pot.getVoltage();
@@ -94,18 +92,22 @@ public class ProtectedControllerSubsystem extends Subsystem {
     		return enc.get();
     	else
     	{
-    		if (sw0.get())
+    		if (!sw0.get())
     			return Integer.MIN_VALUE;
-    		else if (sw1.get())
+    		else if (!sw1.get())
     			return Integer.MAX_VALUE;
     		else
     			return 0;
     	}
     		
     }
+    
+    public int getDirectionTo(double to) {
+    	return getPosition() < to?1:-1;
+    }
 	
 	public void driveWithJoystick() {
-		set(Robot.joystick.getX());
+		set(Robot.xbox.getX());
 	}
 	
 	public void show() {
@@ -114,7 +116,15 @@ public class ProtectedControllerSubsystem extends Subsystem {
 		SmartDashboard.putNumber("Min Pos", minPos);
 		SmartDashboard.putNumber("Max Pos", maxPos);
 		SmartDashboard.putString("Type", pot != null?"POT":enc != null?"ENCODER":"SWITCH");
+		SmartDashboard.putNumber("sw0", sw0.get()?1:0);
+		SmartDashboard.putNumber("sw1", sw1.get()?1:0);
 	}
-
+	   public void resetEncoder() {
+	    	enc.reset();
+	    }
+	    public double getSpeed() {
+	    	return talon.get();
+	    }
+	 
 }
 

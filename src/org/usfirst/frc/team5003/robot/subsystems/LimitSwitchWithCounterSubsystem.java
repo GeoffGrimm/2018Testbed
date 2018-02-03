@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5003.robot.subsystems;
 
+import org.usfirst.frc.team5003.robot.Robot;
+
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -22,6 +24,7 @@ public class LimitSwitchWithCounterSubsystem extends Subsystem {
 			limitSwitch = null;
 			counter = null;
 			isGood = false;
+			Robot.log(String.format("Limit switch with counter on %d failed", ch));
 		}
 	}
 

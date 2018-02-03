@@ -21,7 +21,7 @@ public class TalkativeCommand extends Command {
     }
     
     public TalkativeCommand() {
-    	requires(Robot.emptySub);
+    	//requires(Robot.emptySub);
     }
     
     protected void initialize() {

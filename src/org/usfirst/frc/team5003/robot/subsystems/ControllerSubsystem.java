@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5003.robot.subsystems;
 
 import org.usfirst.frc.team5003.robot.Robot;
-import org.usfirst.frc.team5003.robot.commands.SingleTalonDriveWithJoystickCommand;
+import org.usfirst.frc.team5003.robot.commands.DriveControllerWithJoystickCommand;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -23,11 +23,13 @@ public class ControllerSubsystem extends Subsystem {
 		catch (Exception ex) {
 			talon = null;
 			isGood = false;
+			Robot.log(String.format("Controller on %d failed", ch));
 		}
 	}
 
     public void initDefaultCommand() {
-    	//setDefaultCommand(new SingleTalonDriveWithJoystickCommand());
+    	if (talon.getChannel() == 5)
+    		setDefaultCommand(new DriveControllerWithJoystickCommand());
     }
     
     public void set(double value) {
@@ -35,7 +37,7 @@ public class ControllerSubsystem extends Subsystem {
     }
     
     public void driveWithJoystick() {
-    	talon.set(Robot.joystick.getX());
+    	talon.set(Robot.xbox.getX());
     }
     
     public void show() {

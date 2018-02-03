@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5003.robot.subsystems;
 
+import org.usfirst.frc.team5003.robot.Robot;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -19,6 +21,7 @@ public class GyroSubsystem extends Subsystem {
 		catch (Exception ex) {
 			gyro = null;
 			isGood = false;
+			Robot.log(String.format("Gyro failed"));
 		}
 	}
 
