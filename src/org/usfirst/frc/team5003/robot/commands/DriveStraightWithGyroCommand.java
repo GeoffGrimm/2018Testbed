@@ -32,7 +32,7 @@ public class DriveStraightWithGyroCommand extends Command {
     }
     public DriveStraightWithGyroCommand() {
     	requires(Robot.drivetrain);
-    	requires(Robot.gyroSub);
+    	requires(Robot.gyro);
     }
 
     protected void initialize() {
@@ -41,12 +41,12 @@ public class DriveStraightWithGyroCommand extends Command {
     	if (powerKey != null)
     		power = SmartDashboard.getNumber(powerKey,  0.0);
     	start = new Date().getTime();
-    	heading = Robot.gyroSub.getAngle();
+    	heading = Robot.gyro.getAngle();
     }
 
     protected void execute() {
     	//Robot.drivetrainSub.arcadeDrive(power, 0);
-    	double delta = heading - Robot.gyroSub.getAngle();
+    	double delta = heading - Robot.gyro.getAngle();
     	double correction = -delta / 180; // 100% power if 180 degrees off, 0% if right on
     	Robot.drivetrain.arcadeDrive(power, correction);
     }

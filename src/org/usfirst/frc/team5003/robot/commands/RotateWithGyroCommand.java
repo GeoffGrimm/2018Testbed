@@ -7,48 +7,49 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RotateWithGyroCommand extends Command {
 
-	String dataSource = null;
-	double finalHeading = 0;
+	String targetHeadingKey = null;
+	double targetHeading = 0;
 	boolean finished = false;
 	double tolerance = 1.0;
+	double maxPower = 0.5;
 	
-	public RotateWithGyroCommand(String dataSource){
+	public RotateWithGyroCommand(String targetHeadingKey){
 		this();
-		this.dataSource = dataSource;
+		this.targetHeadingKey = targetHeadingKey;
 	}
 	
     public RotateWithGyroCommand(double finalHeading) {
     	this();
-    	this.finalHeading = finalHeading;
-    	this.dataSource = null;
+    	this.targetHeading = finalHeading;
+    	this.targetHeadingKey = null;
     }
     
     public RotateWithGyroCommand() {
     	requires(Robot.drivetrain);
-    	requires(Robot.gyroSub);    	
+    	requires(Robot.gyro);    	
     }
 
     protected void initialize() {
     	// get final heading from ui if data source specified
-    	if (dataSource != null)
-    		finalHeading = SmartDashboard.getNumber(dataSource,  0);
+    	if (targetHeadingKey != null)
+    		targetHeading = SmartDashboard.getNumber(targetHeadingKey,  0);
     	finished = false; 
     	}
 
     protected void execute() {
-    	double delta = finalHeading - Robot.gyroSub.getAngle();
-    	double power = delta / 180; // 100% power if 180 degrees off, 0% if right on
-    	if (power > 1)
-    		power = 1;
-    	else if (power < -1)
-    		power = -1;
+    	double delta = targetHeading - Robot.gyro.getAngle();
+    	double power = maxPower * (delta / 180); // 100% power if 180 degrees off, 0% if right on
+    	if (power > maxPower)
+    		power = maxPower;
+    	else if (power < -maxPower)
+    		power = -maxPower;
 
     	if (Math.abs(delta) < tolerance) {
     		power = 0;
     		finished = true;
     	}
     	
-    	Robot.drivetrain.tankDrive(power, -power);
+    	Robot.drivetrain.arcadeDrive(0,  power);
     }
 
     protected boolean isFinished() {

@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5003.robot.commands;
 import java.util.ArrayList;
-import org.usfirst.frc.team5003.robot.commands.DriveStraightWithGyroCommand;
 import org.usfirst.frc.team5003.robot.commands.RotateWithGyroCommand;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -41,9 +40,9 @@ public class CommandParser {
 				if (value < 0 || value > 10)
 					debug += String.format("%s from %s is less than 0 or greater than 10\r\n",  valueText, field);
 				else{
-					DriveStraightWithGyroCommand c = new DriveStraightWithGyroCommand(value, power);
+					DriveWithDurationAndPowerCommand c = new DriveWithDurationAndPowerCommand(value, power);
 					if (false)
-						debug += String.format("DriveStraightWithGyroCommand is not good\r\n");
+						debug += String.format("DriveWithDurationAndPower is not good\r\n");
 					else
 						commands.add(c);
 				}

@@ -7,17 +7,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class GrabberCommand extends Command {
 
-	String dataSource = null;
+	String valueKey = null;
 	double value = 0;
     
-    public GrabberCommand(String dataSource) {
+    public GrabberCommand(String valueKey) {
         this();
-        this.dataSource = dataSource;
+        this.valueKey = valueKey;
     }
     
-	public GrabberCommand(double d) {
+	public GrabberCommand(double value) {
         this();
-        this.value = d;
+        this.value = value;
     }
 	
     public GrabberCommand(){
@@ -25,8 +25,8 @@ public class GrabberCommand extends Command {
     }
     
     protected void initialize() {
-    	if (this.dataSource != null) {
-    		value = SmartDashboard.getNumber(dataSource, 0);
+    	if (this.valueKey != null) {
+    		value = SmartDashboard.getNumber(valueKey, 0);
     	}
     	Robot.grabber.set(value);
     }

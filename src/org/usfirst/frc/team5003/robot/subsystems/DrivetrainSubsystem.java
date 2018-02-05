@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5003.robot.subsystems;
 
 import org.usfirst.frc.team5003.robot.Robot;
-import org.usfirst.frc.team5003.robot.commands.DriveControllerWithJoystickCommand;
+import org.usfirst.frc.team5003.robot.commands.DriveWithJoystickCommand;
 
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -19,7 +19,7 @@ public class DrivetrainSubsystem extends Subsystem {
 	SpeedControllerGroup speedControllerLeft = null;
 	SpeedControllerGroup speedControllerRight = null;
 	
-	DifferentialDrive differential = null;
+	private DifferentialDrive differential = null;
 	
 	public boolean isGood = false;
 	
@@ -48,25 +48,19 @@ public class DrivetrainSubsystem extends Subsystem {
 	}
     
 	public void initDefaultCommand() {
-    	setDefaultCommand(new DriveControllerWithJoystickCommand());
+    	setDefaultCommand(new DriveWithJoystickCommand());
     }
     
 	public void driveWithJoystick(){
     	arcadeDrive(Robot.xbox.getY(), Robot.xbox.getX());
     }
-    
-    public void arcadeDrive(double y, double x){
-    	differential.arcadeDrive(y, x);
-    }
-
-    public void tankDrive(double left, double right)
-    {
-    	differential.tankDrive(left, right);
-    }
-    
-    public void stop(){
-    	differential.arcadeDrive(0,0);
-    }
+	public void arcadeDrive(double y, double x) {
+		differential.arcadeDrive(y, x);
+	}
+	
+	public void stop() {
+		differential.arcadeDrive(0,  0);
+	}
     
     public void show() {
     	if (isGood) {

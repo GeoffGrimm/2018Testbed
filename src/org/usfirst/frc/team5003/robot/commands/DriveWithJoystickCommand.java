@@ -4,17 +4,17 @@ import org.usfirst.frc.team5003.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveControllerWithJoystickCommand extends Command {
+public class DriveWithJoystickCommand extends Command {
 
-    public DriveControllerWithJoystickCommand() {
-        requires(Robot.controller);
+    public DriveWithJoystickCommand() {
+        requires(Robot.drivetrain);
     }
 
     protected void initialize() {
     }
 
     protected void execute() {
-    	Robot.controller.driveWithJoystick();
+    	Robot.drivetrain.driveWithJoystick();
     }
 
     protected boolean isFinished() {
@@ -22,7 +22,7 @@ public class DriveControllerWithJoystickCommand extends Command {
     }
 
     protected void end() {
-    	Robot.controller.set(0);
+    	Robot.drivetrain.stop();
     }
 
     protected void interrupted() {

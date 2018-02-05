@@ -5,14 +5,15 @@ import org.usfirst.frc.team5003.robot.subsystems.ProtectedControllerSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DriveProtectedControllerToPositionCommand extends Command {
+public class RunProtectedControllerToPositionCommand extends Command {
 	ProtectedControllerSubsystem controller;
 	String positionKey;
 	double position;
 	int direction;
 	boolean isDone = false;
+	double tolerance = 0; // need to figure out good tolerance for pot and encoder.  pass 'em in?
 
-    public DriveProtectedControllerToPositionCommand(ProtectedControllerSubsystem controller, String positionKey) {
+    public RunProtectedControllerToPositionCommand(ProtectedControllerSubsystem controller, String positionKey) {
     	this.controller = controller;
     	this.positionKey = positionKey;
     	requires(this.controller);
@@ -25,10 +26,12 @@ public class DriveProtectedControllerToPositionCommand extends Command {
 
     }
 
-    // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double power;
-    	if (controller.getDirectionTo(position) != direction)
+    	// if the direction to get to the target has changed, we've passed it and need to stop
+    	if (Math.abs(position - controller.getPosition()) < tolerance || 
+    		controller.getDirectionTo(position) != direction)
+    			
     	{
     		power = 0;
     		isDone = true;
@@ -41,7 +44,7 @@ public class DriveProtectedControllerToPositionCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return isDone;
     }
 
     // Called once after isFinished returns true

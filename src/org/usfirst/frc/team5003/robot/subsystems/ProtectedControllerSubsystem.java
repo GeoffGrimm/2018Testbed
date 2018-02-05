@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5003.robot.subsystems;
 
 import org.usfirst.frc.team5003.robot.Robot;
-import org.usfirst.frc.team5003.robot.commands.DriveProtectedControllerWithJoystick;
+import org.usfirst.frc.team5003.robot.commands.RunProtectedControllerWithJoystick;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -16,8 +16,6 @@ public class ProtectedControllerSubsystem extends Subsystem {
 	public AnalogInput pot;
 	public Encoder enc;
 	public DigitalInput sw0, sw1;
-	// -1 to 12 should never force the motor to stop
-	// 1 to 4 ought to provide good buffering (6 turns with 2 on each end to spare
 	public double minPos = 0;
 	public double maxPos = 0;
 	
@@ -75,7 +73,7 @@ public class ProtectedControllerSubsystem extends Subsystem {
 	}
 	
     public void initDefaultCommand() {
-        setDefaultCommand(new DriveProtectedControllerWithJoystick());
+        setDefaultCommand(new RunProtectedControllerWithJoystick());
     }
 
     public void set(double speed) {
@@ -116,8 +114,8 @@ public class ProtectedControllerSubsystem extends Subsystem {
 		SmartDashboard.putNumber("Min Pos", minPos);
 		SmartDashboard.putNumber("Max Pos", maxPos);
 		SmartDashboard.putString("Type", pot != null?"POT":enc != null?"ENCODER":"SWITCH");
-		SmartDashboard.putNumber("sw0", sw0.get()?1:0);
-		SmartDashboard.putNumber("sw1", sw1.get()?1:0);
+		//SmartDashboard.putNumber("sw0", sw0.get()?1:0);
+		//SmartDashboard.putNumber("sw1", sw1.get()?1:0);
 	}
 	   public void resetEncoder() {
 	    	enc.reset();
