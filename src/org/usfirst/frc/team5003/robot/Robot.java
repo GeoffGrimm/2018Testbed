@@ -76,8 +76,10 @@ public class Robot extends TimedRobot {
 			gearController = new ControllerSubsystem(GearControllerPwm);
 			gearPot = new AnalogSubsystem(GearPotAnalog);
 			
-//			gyro = new GyroSubsystem();
-//			drivetrain = new DrivetrainSubsystem(Left0Pwm, Left1Pwm, Right0Pwm, Right1Pwm);
+			//gyro = new GyroSubsystem();
+			//drivetrain = new DrivetrainSubsystem(Left0Pwm, Left1Pwm, Right0Pwm, Right1Pwm);
+			//dolores
+			//drivetrain = new DrivetrainSubsystem(3,7,2,6);
 			
 			oi = new OI();
 			

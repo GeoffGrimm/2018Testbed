@@ -40,29 +40,42 @@ public class CommandParser {
 				if (value < 0 || value > 10)
 					debug += String.format("%s from %s is less than 0 or greater than 10\r\n",  valueText, field);
 				else{
-					DriveWithDurationAndPowerCommand c = new DriveWithDurationAndPowerCommand(value, power);
-					if (false)
-						debug += String.format("DriveWithDurationAndPower is not good\r\n");
-					else
+					DriveWithDurationAndPowerCommand c = null;
+					try{
+						c = new DriveWithDurationAndPowerCommand(value, power);
+					}
+					catch (Exception e) {
+						c = null;
+					}
+					if (c != null)
 						commands.add(c);
+					else
+						debug += String.format("DriveWithDurationAndPower is not good\r\n");
 				}
 			}
 			
-			//(T)urn
-			else if (commandText.equals("t")){
+			
+			//(R)otate
+			else if (commandText.equals("r")){
 				if (Math.abs(value) > 180)
 					debug += String.format("%s from %s is not between -180 and 180\r\n",  valueText, field);
 				else{
-					RotateWithGyroCommand c = new RotateWithGyroCommand(value);
-					if (false)
-						debug += String.format("RotateWithGyroCommand is not good\r\n");
-					else
+					RotateWithGyroCommand c = null;
+					try {
+						c = new RotateWithGyroCommand(value);
+					}
+					catch (Exception ex) {
+						c = null;
+					}
+					if (c != null)
 						commands.add(c);
+					else
+						debug += String.format("RotateWithGyroCommand is not good\r\n");
 				}
 			}
 
 			else{
-				debug += String.format("%s from %s is not (P)ower, (D)rive, (T)urn\r\n",  commandText, field);
+				debug += String.format("%s from %s is not (P)ower, (D)rive, (R)otate\r\n",  commandText, field);
 			}
 			
 		}

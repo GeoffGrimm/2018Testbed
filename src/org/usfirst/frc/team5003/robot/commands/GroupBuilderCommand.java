@@ -21,8 +21,9 @@ public class GroupBuilderCommand extends Command {
     	}
     	
     	CommandGroup g = new CommandGroup();
-    	for (int i = 0; i < p.commands.size(); i++)
+    	for (int i = 0; i < p.commands.size(); i++) {
     		g.addSequential(p.commands.get(i));
+    	}
     	g.start();
     }
 

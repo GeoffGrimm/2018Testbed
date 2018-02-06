@@ -44,8 +44,8 @@ public class OI {
 			SmartDashboard.putNumber("Grabber Close Value", 0.8);
 
 			SmartDashboard.putData("Grabber",      new GrabberCommand("Grabber Value"));
-			SmartDashboard.putData("Grabber Open",   new GrabberCommand("Grabber Open Value"));
-			SmartDashboard.putData("Grabber Close",  new GrabberCommand("Grabber Close Value"));
+			SmartDashboard.putData("Grabber Open", new GrabberCommand("Grabber Open Value"));
+			SmartDashboard.putData("Grabber Close",new GrabberCommand("Grabber Close Value"));
 			
 			btnGrabberOpen.whenPressed(new GrabberCommand("Grabber Open Value"));
 			btnGrabberClose.whenPressed(new GrabberCommand("Grabber Close Value"));
@@ -55,7 +55,11 @@ public class OI {
 			SmartDashboard.putNumber("Actuator Up Low Power",  0.1);
 			SmartDashboard.putNumber("Actuator Up High Power", 0.5);
 			SmartDashboard.putNumber("Actuator Up High Power Duration", 0.250);
-			btnActuatorUp.whileHeld(new RunControllerWithPowerCommand(Robot.actuatorController, "Actuator Up Low Power", "Actuator Up High Power", "Actuator Up High Power Duration", +1));
+			btnActuatorUp.whileHeld(new RunControllerWithPowerCommand(Robot.actuatorController, 
+																		"Actuator Up Low Power", 
+																		"Actuator Up High Power", 
+																		"Actuator Up High Power Duration", 
+																		+1));
 			
 			SmartDashboard.putNumber("Actuator Down Power",  0.1);
 			btnActuatorDown.whileHeld(new RunControllerWithPowerCommand(Robot.actuatorController, "Actuator Down Power", -1));
