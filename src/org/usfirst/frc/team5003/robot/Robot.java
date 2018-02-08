@@ -68,20 +68,20 @@ public class Robot extends TimedRobot {
 			//xbox = new XboxController(0);
 			xbox = new Joystick(0);
 			
-			grabber = new GrabberSubsystem(GrabberAPwm, GrabberBPwm);
-			
-			actuatorController = new ControllerSubsystem(ActuatorControllerPwm);
-			actuatorPot = new AnalogSubsystem(ActuatorPotAnalog);
-			
-			gearController = new ControllerSubsystem(GearControllerPwm);
-			gearPot = new AnalogSubsystem(GearPotAnalog);
+			//grabber = new GrabberSubsystem(GrabberAPwm, GrabberBPwm);
+//			
+//			actuatorController = new ControllerSubsystem(ActuatorControllerPwm, false);
+//			actuatorPot = new AnalogSubsystem(ActuatorPotAnalog);
+//			
+//			gearController = new ControllerSubsystem(GearControllerPwm, true);
+//			gearPot = new AnalogSubsystem(GearPotAnalog);
 			
 			//gyro = new GyroSubsystem();
 			//drivetrain = new DrivetrainSubsystem(Left0Pwm, Left1Pwm, Right0Pwm, Right1Pwm);
 			//dolores
-			//drivetrain = new DrivetrainSubsystem(3,7,2,6);
+			drivetrain = new DrivetrainSubsystem(3,7,2,6);
 			
-			oi = new OI();
+			//oi = new OI();
 			
 		}
 		catch (Exception ex)
