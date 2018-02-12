@@ -9,13 +9,16 @@ import org.usfirst.frc.team5003.robot.subsystems.EncoderSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.GyroSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.ProtectedControllerSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.GrabberSubsystem;
-import org.usfirst.frc.team5003.robot.subsystems.ControllerSubsystem;
-
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Relay.Direction;
+import edu.wpi.first.wpilibj.Relay.Value;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -25,10 +28,10 @@ public class Robot extends TimedRobot {
 	
 	public static GrabberSubsystem grabber;
 
-	public static ControllerSubsystem actuatorController;
+	public static ProtectedControllerSubsystem actuatorController;
 	public static AnalogSubsystem actuatorPot;
 	
-	public static ControllerSubsystem gearController;
+	public static ProtectedControllerSubsystem gearController;
 	public static AnalogSubsystem gearPot;
 	
 	public static GyroSubsystem gyro;
@@ -45,7 +48,7 @@ public class Robot extends TimedRobot {
 	public static int ActuatorControllerPwm = 6;
 	public static int ActuatorPotAnalog = 0;
 	
-	public static int GearControllerPwm = 7;
+	public static int GearControllerPwm = 8;
 	public static int GearPotAnalog = 1;
 	
 	public static int ProtectedControllerPwm = 4;
@@ -61,6 +64,11 @@ public class Robot extends TimedRobot {
 	public static int Right0Pwm = 2;
 	public static int Right1Pwm = 3;
 	
+	public static double ActuatorPotMin = 1;
+	public static double ActuatorPotMax = 4;
+	public static double GearPotMin = 1;
+	public static double GearPotMax = 4;
+	
 	@Override
 	public void robotInit() {
 		try
@@ -68,20 +76,23 @@ public class Robot extends TimedRobot {
 			//xbox = new XboxController(0);
 			xbox = new Joystick(0);
 			
-			//grabber = new GrabberSubsystem(GrabberAPwm, GrabberBPwm);
-//			
-//			actuatorController = new ControllerSubsystem(ActuatorControllerPwm, false);
-//			actuatorPot = new AnalogSubsystem(ActuatorPotAnalog);
-//			
-//			gearController = new ControllerSubsystem(GearControllerPwm, true);
-//			gearPot = new AnalogSubsystem(GearPotAnalog);
+//			Relay relay = new Relay(3);
+//			relay.setDirection(Direction.kForward);
+//			relay.set(Value.kOn);
 			
-			//gyro = new GyroSubsystem();
-			//drivetrain = new DrivetrainSubsystem(Left0Pwm, Left1Pwm, Right0Pwm, Right1Pwm);
+			grabber = new GrabberSubsystem(GrabberAPwm, GrabberBPwm);
+			
+			actuatorController = new ProtectedControllerSubsystem("Actuator", new Talon(ActuatorControllerPwm), ActuatorPotAnalog, ActuatorPotMin, ActuatorPotMax);
+			gearController = new ProtectedControllerSubsystem("Gear", new Victor(GearControllerPwm), GearPotAnalog, GearPotMin, GearPotMax);
+			
+			gyro = new GyroSubsystem();
+			
+			drivetrain = new DrivetrainSubsystem(Left0Pwm, Left1Pwm, Right0Pwm, Right1Pwm);
+			
 			//dolores
-			drivetrain = new DrivetrainSubsystem(3,7,2,6);
+			//drivetrain = new DrivetrainSubsystem(3,7,2,6);
 			
-			//oi = new OI();
+			oi = new OI();
 			
 		}
 		catch (Exception ex)
@@ -116,9 +127,21 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-
-		gyro.show();
 		
+		try {
+			if (gyro != null)
+				gyro.show();
+			if (grabber != null)
+				grabber.show();
+			if (actuatorController != null)
+				actuatorController.show();
+			if (gearController != null)
+				gearController.show();
+		}
+		catch (Exception ex){
+			Robot.log("custom code in teleopPeriodic is broken!");
+		}
+
 		//////////////////////////////////
 		Scheduler.getInstance().run();
 		//////////////////////////////////

@@ -40,6 +40,7 @@ public class DriveWithDurationAndPowerCommand extends Command {
    }
 
     protected void execute() {
+    	//Robot.drivetrain.arcadeDrive(power,  0);
     }
 
     protected boolean isFinished() {

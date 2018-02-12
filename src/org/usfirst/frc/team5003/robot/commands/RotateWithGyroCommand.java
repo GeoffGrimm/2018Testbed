@@ -11,7 +11,7 @@ public class RotateWithGyroCommand extends Command {
 	double targetHeading = 0;
 	boolean finished = false;
 	double tolerance = 1.0;
-	double maxPower = 0.5;
+	double maxPower = 1;
 	
 	public RotateWithGyroCommand(String targetHeadingKey){
 		this();
@@ -38,7 +38,8 @@ public class RotateWithGyroCommand extends Command {
 
     protected void execute() {
     	double delta = targetHeading - Robot.gyro.getAngle();
-    	double power = maxPower * (delta / 180); // 100% power if 180 degrees off, 0% if right on
+    	double power = 0.5 * (delta < 0?-1:1);
+    	//double power =  0.2 + 0.8 * maxPower * (delta / 45); // 100% power if 180 degrees off, 0% if right on
     	if (power > maxPower)
     		power = maxPower;
     	else if (power < -maxPower)
