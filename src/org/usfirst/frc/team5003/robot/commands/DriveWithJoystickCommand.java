@@ -14,7 +14,7 @@ public class DriveWithJoystickCommand extends Command {
     }
 
     protected void execute() {
-    	Robot.drivetrain.driveWithJoystick();
+    	//Robot.drivetrain.driveWithJoystick();
     }
 
     protected boolean isFinished() {

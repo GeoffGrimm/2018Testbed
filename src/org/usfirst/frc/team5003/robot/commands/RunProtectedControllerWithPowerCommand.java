@@ -55,11 +55,14 @@ public class RunProtectedControllerWithPowerCommand extends Command {
 
     protected void execute() {
     	double currentPower = 0;
+    	
+    	// high power key not set, just use low power all the time
     	if (highPowerKey == null)
     		currentPower = lowPower;
-    	else
-    	{
+    	// high power set, determin power based on elapsed time
+    	else{
 	    	double duration = new Date().getTime() - startTime;
+	    	// in high power range, scale high down to low linearly over duration
 	    	if (duration < highPowerDuration)
 	    		currentPower = highPower - (highPower - lowPower) * ((double)duration/(double)highPowerDuration);
 	    	else
@@ -67,6 +70,7 @@ public class RunProtectedControllerWithPowerCommand extends Command {
     	}
     	controller.set(currentPower * direction);
     	
+    	// if we have a gear controller attached, set its power based on where it should be
     	if (gearController != null) {
 	    	double gearPower;
 	    	double gearDestination = getGearDestination();
@@ -92,16 +96,39 @@ public class RunProtectedControllerWithPowerCommand extends Command {
     	end();
     }
     
+    // given actuator position, what should the gear position be to maintain 16" away from robot edge
+    static double[] aVals = new double[] {1, 2, 3, 4, 5, 6};
+    static double[] gVals = new double[] {1, 1, 2, 3, 5, 8};
     protected double getGearDestination() {
-    	// a miracle occurs
-    	// gear = f(controller.Position);
-    	if (gearController == null)
-    		return 0;
+    	// start with actuator postion
+    	double a = controller.getPosition();
     	
-    	// given array of g (gear) and a (actuator) values
-    	// get a
-    	// find interval that contains a, then
-    	// g = g[i] + (a-a[i]) * ((g[i+1]-g[i])/(a[i+1]-a[i]))
-    	return gearController.getPosition();
+    	// find interval containing a
+    	int iMax = aVals.length - 1;
+    	int j = -1;
+    	
+    	// first two cases are outside the range of values.  may want to do something different
+    	if (a < aVals[0])
+    		j = 0;
+    	else if (a >= aVals[iMax])
+    		j = iMax-1;
+    	// a in the range of a values, look for interval
+    	else {
+	    	for (int i = 0; i < iMax; i++) {
+	    		if (a >= aVals[i] && a < aVals[i+1]) {
+	    			j = i;
+	    			break;
+	    		}
+	    	}
+    	}
+    	// fell thru, shouldn't happen
+    	if (j == -1)
+    		return gearController.getPosition();
+
+    	return gVals[j] + ((gVals[j+1] - gVals[j]) / (aVals[j+1] - aVals[j])) * (a - aVals[j]);
+    	
     }
 }
+// we have N points, numbered 0->N-1
+// iMax is N-1
+// we have N-1 intervals, numbered 0->N-2 or 0->iMax-1 using the leftmost coordinate

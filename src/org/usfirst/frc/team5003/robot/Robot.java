@@ -156,21 +156,3 @@ public class Robot extends TimedRobot {
 		System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").format(new Date()) + "  " + s);
     }
 }
-
-
-//protectedController = new ProtectedControllerSubsystem(
-//ProtectedControllerPwm,
-//ProtectedControllerADio, 
-//ProtectedControllerBDio, 
-//ProtectedControllerXDio,
-//-20480, 20480);
-//protectedController = new ProtectedControllerSubsystem(
-//ProtectedControllerPwm,
-//ProtectedControllerPotAnalog,
-//1, 4);
-//protectedController = new ProtectedControllerSubsystem(
-//ProtectedControllerPwm,
-//ProtectedControllerSw0Dio,
-//ProtectedControllerSw1Dio);
-
-//controller = new ControllerSubsystem(ControllerPwm);

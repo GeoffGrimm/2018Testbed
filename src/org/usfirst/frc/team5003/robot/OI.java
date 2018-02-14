@@ -36,12 +36,15 @@ public class OI {
 		// logitech mapping
 		btnGrabberOpen = new JoystickButton(Robot.xbox, 8);
 		btnGrabberClose = new JoystickButton(Robot.xbox, 9);
-		btnActuatorDown = new JoystickButton(Robot.xbox, 5);
-		btnActuatorUp = new JoystickButton(Robot.xbox, 6);
-		btnGearIn = new JoystickButton(Robot.xbox, 3);
-		btnGearOut = new JoystickButton(Robot.xbox, 4);
+		btnActuatorUp = new JoystickButton(Robot.xbox, 5);
+		btnActuatorDown = new JoystickButton(Robot.xbox, 6);
+		btnGearOut = new JoystickButton(Robot.xbox, 3);
+		btnGearIn = new JoystickButton(Robot.xbox, 4);
 		btnArmUp = new JoystickButton(Robot.xbox, 10);
 		btnArmDown = new JoystickButton(Robot.xbox, 11);
+		// todo: button for retract arm fully?
+		//       button for drop arm to min
+		//       button for both?
 					
 		if (Robot.grabber.isGood) {
 			SmartDashboard.putNumber("Grabber Value",       0.5);
@@ -65,27 +68,30 @@ public class OI {
 																		"Actuator Up High Power", 
 																		"Actuator Up High Power Duration", 
 																		+1));
+			// easy to extend beyond 16" limit when coming down!
 			SmartDashboard.putNumber("Actuator Down Power",  0.5);
 			btnActuatorDown.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.actuatorController, "Actuator Down Power", -1));
 			
 			if (Robot.gearController.isGood)
 			{
-				btnActuatorUp.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.actuatorController, 
+				btnArmUp.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.actuatorController, 
 						"Actuator Up Low Power", 
 						"Actuator Up High Power", 
 						"Actuator Up High Power Duration",
 						Robot.gearController,
 						+1));
-
-				btnActuatorUp.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.actuatorController, 
-						"Actuator Up Low Power", 
-						"Actuator Up High Power", 
-						"Actuator Up High Power Duration", 
+				
+				// use acutator down power for hi & lo 'cause that's the only constructor that takes a gear
+				btnArmDown.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.actuatorController, 
+						"Actuator Down Power", 
+						"Actuator Down Power", 
+						"Actuator Up High Power Duration",
+						Robot.gearController,
 						-1));
-
 			}
 		}
-		
+
+		// todo: set upper limit on gear controller based on actuator
 		if (Robot.gearController.isGood) {
 			SmartDashboard.putNumber("Gear Power",  0.1);
 			btnGearIn.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.gearController, "Gear Power", +1));
