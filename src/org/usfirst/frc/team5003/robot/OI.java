@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5003.robot;
 
+import org.usfirst.frc.team5003.robot.commands.ArmUpDownCommand;
 import org.usfirst.frc.team5003.robot.commands.DriveWithDurationAndPowerCommand;
 import org.usfirst.frc.team5003.robot.commands.GrabberCommand;
 import org.usfirst.frc.team5003.robot.commands.RotateWithGyroCommand;
@@ -20,6 +21,12 @@ public class OI {
 	static public int XBoxRight = 6;
 	static public int XBoxBack = 7;
 	static public int XBoxStart = 8;
+	
+	public static final String ActuatorUpHigh = "Actuator Up High";
+	public static final String ActuatorUpDuration = "Actuator Up Duration";
+	public static final String ActuatorUpLow = "Actuator Up Low";
+	public static final String ActuatorDown = "Actuator Down";
+	public static final String GearInOut = "Gear In Out";
 	
 	
 	
@@ -60,42 +67,47 @@ public class OI {
 		}
 		
 		if (Robot.actuatorController.isGood) {
-			SmartDashboard.putNumber("Actuator Up Low Power",  0.5);
-			SmartDashboard.putNumber("Actuator Up High Power", 0.5);
-			SmartDashboard.putNumber("Actuator Up High Power Duration", 0.5);
+			SmartDashboard.putNumber(ActuatorUpLow,  0.5);
+			SmartDashboard.putNumber(ActuatorUpHigh, 0.5);
+			SmartDashboard.putNumber(ActuatorUpDuration, 0.5);
 			btnActuatorUp.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.actuatorController, 
-																		"Actuator Up Low Power", 
-																		"Actuator Up High Power", 
-																		"Actuator Up High Power Duration", 
+																		ActuatorUpLow, 
+																		ActuatorUpHigh, 
+																		ActuatorUpDuration, 
 																		+1));
 			// easy to extend beyond 16" limit when coming down!
-			SmartDashboard.putNumber("Actuator Down Power",  0.5);
-			btnActuatorDown.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.actuatorController, "Actuator Down Power", -1));
+			SmartDashboard.putNumber(ActuatorDown,  0.5);
+			btnActuatorDown.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.actuatorController, ActuatorDown, -1));
 			
-			if (Robot.gearController.isGood)
-			{
-				btnArmUp.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.actuatorController, 
-						"Actuator Up Low Power", 
-						"Actuator Up High Power", 
-						"Actuator Up High Power Duration",
-						Robot.gearController,
-						+1));
-				
-				// use acutator down power for hi & lo 'cause that's the only constructor that takes a gear
-				btnArmDown.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.actuatorController, 
-						"Actuator Down Power", 
-						"Actuator Down Power", 
-						"Actuator Up High Power Duration",
-						Robot.gearController,
-						-1));
-			}
+//			if (Robot.gearController.isGood)
+//			{
+//				btnArmUp.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.actuatorController, 
+//						ActuatorUpLow, 
+//						ActuatorUpHigh, 
+//						ActuatorUpDuration,
+//						Robot.gearController,
+//						+1));
+//				
+//				// use acutator down power for hi & lo 'cause that's the only constructor that takes a gear
+//				btnArmDown.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.actuatorController, 
+//						ActuatorDown, 
+//						ActuatorDown, 
+//						ActuatorUpDuration,
+//						Robot.gearController,
+//						-1));
+//			}
+		}
+		
+		if (Robot.arm.isGood) {
+			btnArmUp.whileHeld(new ArmUpDownCommand(1));
+			btnArmDown.whileHeld(new ArmUpDownCommand(-1));
 		}
 
 		// todo: set upper limit on gear controller based on actuator
 		if (Robot.gearController.isGood) {
-			SmartDashboard.putNumber("Gear Power",  0.1);
-			btnGearIn.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.gearController, "Gear Power", +1));
-			btnGearOut.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.gearController, "Gear Power", -1));
+			SmartDashboard.putNumber(GearInOut,  0.1);
+			btnGearIn.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.gearController, GearInOut, +1));
+			btnGearOut.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.gearController, GearInOut, -1));
 		}
 
 		if (Robot.drivetrain.isGood)

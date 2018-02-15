@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.usfirst.frc.team5003.robot.subsystems.AnalogSubsystem;
+import org.usfirst.frc.team5003.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.DrivetrainSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.EncoderSubsystem;
 import org.usfirst.frc.team5003.robot.subsystems.GyroSubsystem;
@@ -27,6 +28,7 @@ public class Robot extends TimedRobot {
 	public static Joystick xbox;
 	
 	public static GrabberSubsystem grabber;
+	public static ArmSubsystem arm;
 
 	public static ProtectedControllerSubsystem actuatorController;
 	public static AnalogSubsystem actuatorPot;
@@ -40,34 +42,24 @@ public class Robot extends TimedRobot {
 	
 	//public static ProtectedControllerSubsystem protectedController;
 	
-	public static int GrabberAPwm = 8;
-	public static int GrabberBPwm = 9;
+	public static final int GrabberAPwm = 7;
+	public static final int GrabberBPwm = 9;
 	
-	public static int ControllerPwm = 5;
+	public static final int ActuatorControllerPwm = 6;
+	public static final int ActuatorPotCh = 0;
 	
-	public static int ActuatorControllerPwm = 6;
-	public static int ActuatorPotAnalog = 0;
+	public static final int GearControllerPwm = 8;
+	public static final int GearPotCh = 1;
 	
-	public static int GearControllerPwm = 8;
-	public static int GearPotAnalog = 1;
+	public static final int Left0Pwm = 1;
+	public static final int Left1Pwm = 2;
+	public static final int Right0Pwm = 3;
+	public static final int Right1Pwm = 4;
 	
-	public static int ProtectedControllerPwm = 4;
-	public static int ProtectedControllerADio = 7;
-	public static int ProtectedControllerBDio = 8;
-	public static int ProtectedControllerXDio = 9;
-	public static int ProtectedControllerPotAnalog = 2;
-	public static int ProtectedControllerSw0Dio = 0;
-	public static int ProtectedControllerSw1Dio = 1;
-	
-	public static int Left0Pwm = 0;
-	public static int Left1Pwm = 1;
-	public static int Right0Pwm = 2;
-	public static int Right1Pwm = 3;
-	
-	public static double ActuatorPotMin = 1;
-	public static double ActuatorPotMax = 4;
-	public static double GearPotMin = 1;
-	public static double GearPotMax = 4;
+	public static final double ActuatorPotMin = 1;
+	public static final double ActuatorPotMax = 4;
+	public static final double GearPotMin = 1;
+	public static final double GearPotMax = 4;
 	
 	@Override
 	public void robotInit() {
@@ -82,8 +74,13 @@ public class Robot extends TimedRobot {
 			
 			grabber = new GrabberSubsystem(GrabberAPwm, GrabberBPwm);
 			
-			actuatorController = new ProtectedControllerSubsystem("Actuator", new Talon(ActuatorControllerPwm), ActuatorPotAnalog, ActuatorPotMin, ActuatorPotMax);
-			gearController = new ProtectedControllerSubsystem("Gear", new Victor(GearControllerPwm), GearPotAnalog, GearPotMin, GearPotMax);
+			Talon talon = new Talon(ActuatorControllerPwm);
+			Victor victor = new Victor(GearControllerPwm);
+			
+			arm = new ArmSubsystem(talon, ActuatorPotCh, victor, GearPotCh);
+			
+			actuatorController = new ProtectedControllerSubsystem("Actuator", talon, ActuatorPotCh, ActuatorPotMin, ActuatorPotMax);
+			gearController = new ProtectedControllerSubsystem("Gear", victor, GearPotCh, GearPotMin, GearPotMax);
 			
 			gyro = new GyroSubsystem();
 			
@@ -93,7 +90,7 @@ public class Robot extends TimedRobot {
 			//drivetrain = new DrivetrainSubsystem(3,7,2,6);
 			
 			oi = new OI();
-			
+		
 		}
 		catch (Exception ex)
 		{
@@ -133,10 +130,10 @@ public class Robot extends TimedRobot {
 				gyro.show();
 			if (grabber != null)
 				grabber.show();
-			if (actuatorController != null)
-				actuatorController.show();
-			if (gearController != null)
-				gearController.show();
+//			if (actuatorController != null)
+//				actuatorController.show();
+//			if (gearController != null)
+//				gearController.show();
 		}
 		catch (Exception ex){
 			Robot.log("custom code in teleopPeriodic is broken!");
