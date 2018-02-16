@@ -79,8 +79,8 @@ public class Robot extends TimedRobot {
 			
 			arm = new ArmSubsystem(talon, ActuatorPotCh, victor, GearPotCh);
 			
-			actuatorController = new ProtectedControllerSubsystem("Actuator", talon, ActuatorPotCh, ActuatorPotMin, ActuatorPotMax);
-			gearController = new ProtectedControllerSubsystem("Gear", victor, GearPotCh, GearPotMin, GearPotMax);
+			//actuatorController = new ProtectedControllerSubsystem("Actuator", talon, ActuatorPotCh, ActuatorPotMin, ActuatorPotMax);
+			//gearController = new ProtectedControllerSubsystem("Gear", victor, GearPotCh, GearPotMin, GearPotMax);
 			
 			gyro = new GyroSubsystem();
 			
@@ -109,6 +109,47 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+		String scaleLocations = DriverStation.getInstance().getGameSpecificMessage();
+		Robot.log(String.format("Driver Station Message is [%s]", scaleLocations));
+		
+		if (scaleLocations.length() != 3)
+			return;
+		
+		String nearSwitch = scaleLocations.substring(0,  0);
+		String scale = scaleLocations.substring(1, 1);
+		String farSwitch = scaleLocations.substring(2, 2);
+		
+		String location = OI.botLocationChooser.getSelected();
+		
+		if (location == nearSwitch)
+		{
+			// drive short
+			// turn !location
+			// raise a bit
+			// drive deep
+			// drop
+		}
+		else if (location == scale) {
+			// drive long
+			// turn !location
+			// raise to max
+			// drive shallow
+			// drop
+		}
+		else if (location == "L" || location == "R") {
+			// drive short
+			// stop
+		}
+		else if (location == "C") {
+			// drive really short
+			if (nearSwitch == "R") {
+				// drop cube
+			}
+		}
+			
+			
+		// doesn't seem to work
+		// Robot.log(String.format("Driver Station Number %d", DriverStation.getInstance().getLocation()));
 	}
 
 	@Override
@@ -118,8 +159,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		Robot.log(String.format("Driver Station Message is [%s]", DriverStation.getInstance().getGameSpecificMessage()));
-		Robot.log(String.format("Driver Station Number %d", DriverStation.getInstance().getLocation()));
 	}
 
 	@Override
@@ -130,10 +169,8 @@ public class Robot extends TimedRobot {
 				gyro.show();
 			if (grabber != null)
 				grabber.show();
-//			if (actuatorController != null)
-//				actuatorController.show();
-//			if (gearController != null)
-//				gearController.show();
+			if (arm != null)
+				arm.show();
 		}
 		catch (Exception ex){
 			Robot.log("custom code in teleopPeriodic is broken!");

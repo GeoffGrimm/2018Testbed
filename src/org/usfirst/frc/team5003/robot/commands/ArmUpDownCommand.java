@@ -16,12 +16,19 @@ public class ArmUpDownCommand extends Command {
 	private double actuatorDown;
 	private double gearInOut;
 	private long startTime;
+	private long commandDuration = -1;
+	private boolean isDone = false;
 	
 	private int direction;
 	
-    public ArmUpDownCommand(int direction) {
+    public ArmUpDownCommand(int direction, double duration) {
     	this.direction = direction;
+    	this.commandDuration = (long)(1000*duration);
+    	isDone = false;
         requires (Robot.arm);
+    }
+    public ArmUpDownCommand(int direction) {
+    	this(direction, -1);
     }
 
     protected void initialize() {
@@ -34,11 +41,16 @@ public class ArmUpDownCommand extends Command {
     }
 
     protected void execute() {
-    	double actuatorPower;
+		long elapsed = new Date().getTime() - startTime;
+		
+		if (commandDuration > 0 && elapsed > commandDuration) {
+			isDone = true;
+			return;
+		}
     	
+    	double actuatorPower;
     	if (direction > 0)
     	{
-    		long elapsed = new Date().getTime() - startTime;
     		if (elapsed <= actuatorHighDuration)
     			actuatorPower = actuatorUpHigh;
     		else
@@ -47,11 +59,13 @@ public class ArmUpDownCommand extends Command {
     	else
     		actuatorPower = -actuatorDown;
     	
-    	Robot.arm.set(actuatorPower, gearInOut);
+    	double gearPower = direction * gearInOut;
+    	
+    	Robot.arm.set(actuatorPower, direction * gearInOut);
     }
 
     protected boolean isFinished() {
-        return false;
+        return isDone;
     }
 
     protected void end() {

@@ -6,6 +6,7 @@ import org.usfirst.frc.team5003.robot.commands.GrabberCommand;
 import org.usfirst.frc.team5003.robot.commands.RotateWithGyroCommand;
 import org.usfirst.frc.team5003.robot.commands.RunProtectedControllerWithPowerCommand;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team5003.robot.commands.GroupBuilderCommand;
 
@@ -27,6 +28,10 @@ public class OI {
 	public static final String ActuatorUpLow = "Actuator Up Low";
 	public static final String ActuatorDown = "Actuator Down";
 	public static final String GearInOut = "Gear In Out";
+	public static final String ArmDirection = "Arm Direction";
+	public static final String ArmDuration = "Arm Duration";
+	
+	public static SendableChooser<String> botLocationChooser;
 	
 	
 	
@@ -52,6 +57,13 @@ public class OI {
 		// todo: button for retract arm fully?
 		//       button for drop arm to min
 		//       button for both?
+		
+		
+		botLocationChooser = new SendableChooser<String>();
+		botLocationChooser.addObject("Left",  "L");
+		botLocationChooser.addObject("Center",  "C");
+		botLocationChooser.addObject("Right",  "R");
+		SmartDashboard.putData("Bot Location", botLocationChooser);
 					
 		if (Robot.grabber.isGood) {
 			SmartDashboard.putNumber("Grabber Value",       0.5);
@@ -65,20 +77,21 @@ public class OI {
 			btnGrabberOpen.whenPressed(new GrabberCommand("Grabber Open Value"));
 			btnGrabberClose.whenPressed(new GrabberCommand("Grabber Close Value"));
 		}
-		
-		if (Robot.actuatorController.isGood) {
-			SmartDashboard.putNumber(ActuatorUpLow,  0.5);
-			SmartDashboard.putNumber(ActuatorUpHigh, 0.5);
-			SmartDashboard.putNumber(ActuatorUpDuration, 0.5);
-			btnActuatorUp.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.actuatorController, 
-																		ActuatorUpLow, 
-																		ActuatorUpHigh, 
-																		ActuatorUpDuration, 
-																		+1));
-			// easy to extend beyond 16" limit when coming down!
-			SmartDashboard.putNumber(ActuatorDown,  0.5);
-			btnActuatorDown.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.actuatorController, ActuatorDown, -1));
-			
+
+		SmartDashboard.putNumber(ActuatorUpLow,  0.1);
+		SmartDashboard.putNumber(ActuatorUpHigh, 0.6);
+		SmartDashboard.putNumber(ActuatorUpDuration, 0.25);
+		SmartDashboard.putNumber(ActuatorDown,  0.1);
+//		if (Robot.actuatorController.isGood) {
+//			btnActuatorUp.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.actuatorController, 
+//																		ActuatorUpLow, 
+//																		ActuatorUpHigh, 
+//																		ActuatorUpDuration, 
+//																		+1));
+//			// easy to extend beyond 16" limit when coming down!
+//
+//			btnActuatorDown.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.actuatorController, ActuatorDown, -1));
+//			
 //			if (Robot.gearController.isGood)
 //			{
 //				btnArmUp.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.actuatorController, 
@@ -96,19 +109,23 @@ public class OI {
 //						Robot.gearController,
 //						-1));
 //			}
-		}
+//		}
 		
 		if (Robot.arm.isGood) {
 			btnArmUp.whileHeld(new ArmUpDownCommand(1));
 			btnArmDown.whileHeld(new ArmUpDownCommand(-1));
+			SmartDashboard.putNumber(ArmDirection, 1);
+			SmartDashboard.putNumber(ArmDuration, 0.5);
+			SmartDashboard.putData("Move Arm", new ArmUpDownCommand((int)SmartDashboard.getNumber(ArmDirection, 1),
+					                                                     SmartDashboard.getNumber(ArmDuration, 0.5)));
 		}
 
 		// todo: set upper limit on gear controller based on actuator
-		if (Robot.gearController.isGood) {
-			SmartDashboard.putNumber(GearInOut,  0.1);
-			btnGearIn.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.gearController, GearInOut, +1));
-			btnGearOut.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.gearController, GearInOut, -1));
-		}
+//		if (Robot.gearController.isGood) {
+//			SmartDashboard.putNumber(GearInOut,  0.1);
+//			btnGearIn.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.gearController, GearInOut, +1));
+//			btnGearOut.whileHeld(new RunProtectedControllerWithPowerCommand(Robot.gearController, GearInOut, -1));
+//		}
 
 		if (Robot.drivetrain.isGood)
 		{

@@ -2,6 +2,7 @@ package org.usfirst.frc.team5003.robot.subsystems;
 
 import edu.wpi.first.wpilibj.PWMSpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ArmSubsystem extends Subsystem {
 
@@ -75,6 +76,18 @@ public class ArmSubsystem extends Subsystem {
 
     	return gVals[j] + ((gVals[j+1] - gVals[j]) / (aVals[j+1] - aVals[j])) * (a - aVals[j]);
     	
+    }
+    
+    public void show()
+    {
+    	SmartDashboard.putNumber("Actuator", actuator.get());
+    	SmartDashboard.putNumber("Actuator Pot", actuatorPot.getVoltage());
+    	SmartDashboard.putNumber("Actuator Min", actuatorMin);
+    	SmartDashboard.putNumber("Actuator Max", actuatorMax);
+    	SmartDashboard.putNumber("Gear", gear.get());
+    	SmartDashboard.putNumber("Gear Pot", gearPot.getVoltage());
+    	SmartDashboard.putNumber("Gear Min", gearMin);
+    	SmartDashboard.putNumber("Gear Max", gearMax);
     }
 
     public void initDefaultCommand() {
