@@ -19,17 +19,17 @@ public class ProtectedControllerSubsystem extends Subsystem {
 	private Encoder enc;
 	private DigitalInput sw0, sw1;
 	
-	public double minPos = 0;
-	public double maxPos = 0;
+	public double negativeLimit = 0;
+	public double positiveLimit = 0;
 	public boolean isGood = false;
 
 	// protected by pot
-	public ProtectedControllerSubsystem(String name, PWMSpeedController controller, int potCh, double minPos, double maxPos){
-		this(name, controller, potCh, -1, -1, -1, -1, -1, minPos, maxPos);
+	public ProtectedControllerSubsystem(String name, PWMSpeedController controller, int potCh, double negativeLimit, double positiveLimit){
+		this(name, controller, potCh, -1, -1, -1, -1, -1, negativeLimit, positiveLimit);
 	}	
 	// protected by encoder
-	public ProtectedControllerSubsystem(String name, PWMSpeedController controller, int chA, int chB, int chX, double minPos, double maxPos){
-		this(name, controller, -1, chA, chB, chX, -1, -1, minPos, maxPos);
+	public ProtectedControllerSubsystem(String name, PWMSpeedController controller, int chA, int chB, int chX, double negativeLimit, double positiveLimit){
+		this(name, controller, -1, chA, chB, chX, -1, -1, negativeLimit, positiveLimit);
 	}
 	// protected by switches
 	public ProtectedControllerSubsystem(String name, PWMSpeedController controller, int ch0, int ch1){
@@ -43,7 +43,7 @@ public class ProtectedControllerSubsystem extends Subsystem {
 		this(name, controller, -1, -1, -1, -1, -1, -1, 0, 0);
 	}
 
-	public ProtectedControllerSubsystem(String name, PWMSpeedController controller, int potCh, int chA, int chB, int chX, int ch0, int ch1, double minPos, double maxPos){
+	public ProtectedControllerSubsystem(String name, PWMSpeedController controller, int potCh, int chA, int chB, int chX, int ch0, int ch1, double negativeLimit, double positiveLimit){
 		try {
 			this.name = name;
 			this.controller = controller;
@@ -67,8 +67,8 @@ public class ProtectedControllerSubsystem extends Subsystem {
 				sw1.get();
 			}
 			
-			this.minPos = minPos;
-			this.maxPos = maxPos;
+			this.negativeLimit = negativeLimit;
+			this.positiveLimit = positiveLimit;
 			isGood = true;
 		}
 		catch (Exception ex) {
@@ -85,19 +85,34 @@ public class ProtectedControllerSubsystem extends Subsystem {
     public void initDefaultCommand() {
         //setDefaultCommand(new RunProtectedControllerWithJoystick());
     }
-
-    public void set(double speed) {
-		if ((speed < 0 && getPosition() < minPos) ||
-		    (speed > 0 && getPosition() > maxPos))
-			speed = 0;
-		controller.set(speed); 
+    
+    public void set(double power) 
+    {
+		controller.set(checkPower(power, getPosition(), negativeLimit, positiveLimit)); 
 	}
+    
+	public static double checkPower(double power, double pos, double negativeLimit, double positiveLimit)
+	{
+		if (negativeLimit < positiveLimit)
+		{
+			if ((pos < negativeLimit && power < 0) || (pos > positiveLimit && power > 0))
+				power = 0;
+		}
+		else 
+		{
+			if ((pos > negativeLimit && power < 0) || (pos < positiveLimit && power > 0))
+				power = 0;
+		}
+		return power;
+	}
+
    
  	public void driveWithJoystick() {
 		set(Robot.xbox.getX());
 	}
  	
- 	public double getPosition() {
+ 	public double getPosition() 
+ 	{
     	if (pot != null)
     		return pot.getVoltage();
     	else if (enc != null)
@@ -123,20 +138,18 @@ public class ProtectedControllerSubsystem extends Subsystem {
     }
 	
     
-    public double getSpeed() {
+    public double get() {
     	return controller.get();
     }  
     
-
-	
 	public void show() {
 		if (isGood) {
-			SmartDashboard.putNumber(name + " Speed",  getSpeed());
+			SmartDashboard.putNumber(name + " Power",  get());
 			SmartDashboard.putNumber(name + " Position", getPosition());
-			SmartDashboard.putNumber(name + " Min Pos", minPos);
-			SmartDashboard.putNumber(name + " Max Pos", maxPos);
+			SmartDashboard.putNumber(name + " Neg Limit", negativeLimit);
+			SmartDashboard.putNumber(name + " Pos Limit", positiveLimit);
 			if (pot != null) {
-				SmartDashboard.putNumber(name + " Ave Pos", pot.getAverageVoltage());
+				SmartDashboard.putNumber(name + " Ave PotVoltage", pot.getAverageVoltage());
 			}
 		}
 	}

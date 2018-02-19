@@ -16,7 +16,7 @@ public class AnalogSubsystem extends Subsystem {
 			analog = new AnalogInput(ch);
 			analog.getValue();
 			isGood = true;
-		}
+		}	
 		catch (Exception ex) {
 			analog = null;
 			isGood = false;
@@ -29,11 +29,7 @@ public class AnalogSubsystem extends Subsystem {
     
     public void show() {
     	if (isGood) {
-	    	SmartDashboard.putNumber("Analog",              analog.getValue());
-	    	SmartDashboard.putNumber("Analog Ave",          analog.getAverageValue());
-	    	SmartDashboard.putNumber("Analog Voltage",      analog.getVoltage());
-	    	SmartDashboard.putNumber("Analog Voltage Ave",  analog.getAverageVoltage());
-	    	SmartDashboard.putNumber("Analog Ave Bits",     analog.getAverageBits());
+	    	SmartDashboard.putNumber(String.format("Analog on %d", analog.getChannel()),              analog.getVoltage());
     	}
     }
     public double getVoltage() {

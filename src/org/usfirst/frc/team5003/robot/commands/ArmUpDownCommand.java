@@ -52,16 +52,22 @@ public class ArmUpDownCommand extends Command {
     	if (direction > 0)
     	{
     		if (elapsed <= actuatorHighDuration)
-    			actuatorPower = actuatorUpHigh;
+    		{
+    			//actuatorPower = actuatorUpHigh;
+    			actuatorPower = actuatorUpHigh - (actuatorUpHigh - actuatorUpHigh) * ((double)elapsed/(double)actuatorHighDuration);
+    		}
     		else
-    			actuatorPower = actuatorUpLow;
+    		{
+    			actuatorPower = actuatorUpHigh;
+    		}
     	}
     	else
     		actuatorPower = -actuatorDown;
     	
-    	double gearPower = direction * gearInOut;
+    	// gear goes out if negative, in if positive
+    	double gearPower = -direction * gearInOut;
     	
-    	Robot.arm.set(actuatorPower, direction * gearInOut);
+    	Robot.arm.set(actuatorPower, gearPower);
     }
 
     protected boolean isFinished() {

@@ -35,7 +35,7 @@ public class RunProtectedControllerToPositionCommand extends Command {
     		isDone = true;
     	}
     	else
-    		power = lowPower + (1-lowPower) * (position - controller.getPosition()) / (controller.maxPos - controller.minPos);
+    		power = lowPower + (1-lowPower) * (position - controller.getPosition()) / (Math.abs(controller.positiveLimit-controller.negativeLimit));
     	controller.set(power);
     	
     }

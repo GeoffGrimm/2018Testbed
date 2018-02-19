@@ -11,18 +11,16 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DrivetrainSubsystem extends Subsystem {
-//	Spark driveLeft0 = null;
-//	Spark driveLeft1 = null;
-//	Spark driveRight0 = null;
-//	Spark driveRight1 = null;
-	
-	// Dolores:
 	Spark driveLeft0 = null;
-	Victor driveLeft1 = null;
+	Spark driveLeft1 = null;
 	Spark driveRight0 = null;
-	Victor driveRight1 = null;
-
-			
+	Spark driveRight1 = null;
+	
+//	// Dolores:
+//	Spark driveLeft0 = null;
+//	Victor driveLeft1 = null;
+//	Spark driveRight0 = null;
+//	Victor driveRight1 = null;
 	
 	SpeedControllerGroup speedControllerLeft = null;
 	SpeedControllerGroup speedControllerRight = null;
@@ -33,16 +31,17 @@ public class DrivetrainSubsystem extends Subsystem {
 	
 	public DrivetrainSubsystem(int left0, int left1, int right0, int right1){
 		try {
-//			driveLeft0 = new Spark(left0);
-//			driveLeft1 = new Spark(left1);
-//			driveRight0 = new Spark(right0);
-//			driveRight1 = new Spark(right1);
-			
-			// Dolores
 			driveLeft0 = new Spark(left0);
-			driveLeft1 = new Victor(left1);
+			driveLeft1 = new Spark(left1);
 			driveRight0 = new Spark(right0);
-			driveRight1 = new Victor(right1);
+			driveRight1 = new Spark(right1);
+			
+//			// Dolores
+//			driveLeft0 = new Spark(left0);
+//			driveLeft1 = new Victor(left1);
+//			driveRight0 = new Spark(right0);
+//			driveRight1 = new Victor(right1);
+			
 			speedControllerLeft = new SpeedControllerGroup(driveLeft0, driveLeft1);
 			speedControllerRight = new SpeedControllerGroup(driveRight0, driveRight1);
 			differential = new DifferentialDrive(speedControllerLeft, speedControllerRight);	
@@ -69,7 +68,11 @@ public class DrivetrainSubsystem extends Subsystem {
     	arcadeDrive(Robot.xbox.getY(), Robot.xbox.getX());
     }
 	public void arcadeDrive(double y, double x) {
-		differential.arcadeDrive(y, x);
+		double driveValue = Robot.xbox.getRawAxis(Robot.DRIVE_AXIS);
+		double turnValue = Robot.xbox.getRawAxis(Robot.TURN_AXIS);
+		differential.arcadeDrive(driveValue * Robot.DRIVE_POWER, turnValue * Robot.DRIVE_POWER, true);
+
+		//differential.arcadeDrive(y, x);
 	}
 	
 	public void stop() {

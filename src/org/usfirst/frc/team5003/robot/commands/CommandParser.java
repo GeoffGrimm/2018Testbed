@@ -10,7 +10,7 @@ public class CommandParser {
 	public String debug = "";
 
 	public Boolean init(String s){
-		s = s.toLowerCase();
+		s = s.toUpperCase();
 		String[] fields = s.split(",");
 		double power = 0.5;
 		for (int i = 0; i < fields.length; i++)
@@ -28,7 +28,7 @@ public class CommandParser {
 			}
 			
 			//(P)ower
-			if (commandText.equals("p")){
+			if (commandText == "P"){
 				if (Math.abs(value) > 1)
 					debug += String.format("%s from %s is not between -1.0 and 1.0\r\n",  valueText, field);
 				else
@@ -36,7 +36,7 @@ public class CommandParser {
 			}
 			
 			//(D)rive
-			else if (commandText.equals("d")){
+			else if (commandText == "D"){
 				if (value < 0 || value > 10)
 					debug += String.format("%s from %s is less than 0 or greater than 10\r\n",  valueText, field);
 				else{
@@ -56,7 +56,7 @@ public class CommandParser {
 			
 			
 			//(R)otate
-			else if (commandText.equals("r")){
+			else if (commandText == "T"){
 				if (Math.abs(value) > 180)
 					debug += String.format("%s from %s is not between -180 and 180\r\n",  valueText, field);
 				else{
@@ -73,9 +73,30 @@ public class CommandParser {
 						debug += String.format("RotateWithGyroCommand is not good\r\n");
 				}
 			}
+			else if (commandText == "R" || commandText == "L"){
+				if (value < 0 || value > 10)
+					debug += String.format("%s from %s is less than 0 or greater than 10\r\n",  valueText, field);
+				else{
+					int direction = 1;
+					if (commandText == "L")
+						direction = -1;
+					ArmUpDownCommand c = null;
+					try{
+						c = new ArmUpDownCommand(direction, value);
+					}
+					catch (Exception e) {
+						c = null;
+					}
+					if (c != null)
+						commands.add(c);
+					else
+						debug += String.format("ArmUpDownCommand is not good\r\n");
+				}
+			}
+
 
 			else{
-				debug += String.format("%s from %s is not (P)ower, (D)rive, (R)otate\r\n",  commandText, field);
+				debug += String.format("%s from %s is not (P)ower, (D)rive, (T)urn, (R)aise, (L)ower\r\n",  commandText, field);
 			}
 			
 		}
