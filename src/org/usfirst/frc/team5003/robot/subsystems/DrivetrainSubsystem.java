@@ -65,11 +65,11 @@ public class DrivetrainSubsystem extends Subsystem {
     }
     
 	public void driveWithJoystick(){
-    	arcadeDrive(Robot.xbox.getY(), Robot.xbox.getX());
+    	arcadeDrive(Robot.joy.getY(), Robot.joy.getX());
     }
 	public void arcadeDrive(double y, double x) {
-		double driveValue = Robot.xbox.getRawAxis(Robot.DRIVE_AXIS);
-		double turnValue = Robot.xbox.getRawAxis(Robot.TURN_AXIS);
+		double driveValue = Robot.joy.getRawAxis(Robot.DRIVE_AXIS);
+		double turnValue = Robot.joy.getRawAxis(Robot.TURN_AXIS);
 		differential.arcadeDrive(driveValue * Robot.DRIVE_POWER, turnValue * Robot.DRIVE_POWER, true);
 
 		//differential.arcadeDrive(y, x);
@@ -87,6 +87,7 @@ public class DrivetrainSubsystem extends Subsystem {
 			SmartDashboard.putNumber("R1", driveRight1.get());
 			SmartDashboard.putNumber("L", speedControllerLeft.get());
 			SmartDashboard.putNumber("R", speedControllerRight.get());
+
     	}
     }
 }

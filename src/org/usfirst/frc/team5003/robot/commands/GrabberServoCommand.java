@@ -5,22 +5,22 @@ import org.usfirst.frc.team5003.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class GrabberCommand extends Command {
+public class GrabberServoCommand extends Command {
 
 	String valueKey = null;
 	double value = 0;
     
-    public GrabberCommand(String valueKey) {
+    public GrabberServoCommand(String valueKey) {
         this();
         this.valueKey = valueKey;
     }
     
-	public GrabberCommand(double value) {
+	public GrabberServoCommand(double value) {
         this();
         this.value = value;
     }
 	
-    public GrabberCommand(){
+    public GrabberServoCommand(){
     	requires(Robot.grabber);
     }
     

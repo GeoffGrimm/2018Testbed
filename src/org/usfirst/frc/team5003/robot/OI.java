@@ -1,9 +1,10 @@
 package org.usfirst.frc.team5003.robot;
 
 import org.usfirst.frc.team5003.robot.commands.ArmUpDownCommand;
-import org.usfirst.frc.team5003.robot.commands.DriveWithDurationAndPowerCommand;
-import org.usfirst.frc.team5003.robot.commands.GrabberCommand;
+import org.usfirst.frc.team5003.robot.commands.DriveWithPowerAndDurationCommand;
+import org.usfirst.frc.team5003.robot.commands.GrabberServoCommand;
 import org.usfirst.frc.team5003.robot.commands.RotateWithGyroCommand;
+import org.usfirst.frc.team5003.robot.commands.RunGrabberMotorCommand;
 import org.usfirst.frc.team5003.robot.commands.RunProtectedControllerWithPowerCommand;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -30,20 +31,79 @@ public class OI {
 	public static final String GearInOut = "Gear In Out";
 	public static final String ArmDirection = "Arm Direction";
 	public static final String ArmDuration = "Arm Duration";
+	public static final String GrabberMotorOpen = "Grabber Motor Open";
+	public static final String GrabberMotorClose = "Grabber Motor Close";
+	public static final String GrabberMotorDuration = "Grabber Motor Duration";
+	public static final String DrivePower = "Drive Power";
+	public static final String DriveDuration = "Drive Duration";
+	public static final String RotateAngle = "Rotate Angle";
+	public static final String CommandString = "Command String";
+	
+	public static final String AutoSwitchX = "Auto Switch X";
+	public static final String AutoSwitchY = "Auto Switch Y";
+	public static final String AutoScaleX = "Auto Scale X";
+	public static final String AutoScaleY = "Auto Scale Y";
+	public static final String AutoCenterX = "Auto Center X";
+	public static final String AutoGrabberOpen = "Auto Grabber Open";
+
 	
 	public static SendableChooser<String> botLocationChooser;
 	
 	
 	
-	public OI() {
+	public OI() 
+	{
+		btnGrabberOpen = new JoystickButton(Robot.joy, XBoxLeft);
+		btnGrabberClose = new JoystickButton(Robot.joy, XBoxRight);
+		
+		if (Robot.grabber != null && Robot.grabber.isGood) 
+		{
+			SmartDashboard.putNumber(GrabberMotorOpen, 0.25);
+			SmartDashboard.putNumber(GrabberMotorClose, -0.25);
+			SmartDashboard.putNumber(GrabberMotorDuration, 1);
+			
+			btnGrabberOpen.whenPressed(new RunGrabberMotorCommand(GrabberMotorOpen));
+			btnGrabberClose.whenPressed(new RunGrabberMotorCommand(GrabberMotorClose));
+			
+			SmartDashboard.putData("Open", new RunGrabberMotorCommand(GrabberMotorOpen, GrabberMotorDuration));
+			SmartDashboard.putData("Close", new RunGrabberMotorCommand(GrabberMotorClose, GrabberMotorDuration));
+		}
+		
+		if (Robot.drivetrain != null && Robot.drivetrain.isGood)
+		{
+			SmartDashboard.putNumber(DriveDuration, 2);
+			SmartDashboard.putNumber(DrivePower, 0.1);
+			SmartDashboard.putData("Drive", new DriveWithPowerAndDurationCommand(DriveDuration, DrivePower));
+			
+			if (Robot.gyro != null && Robot.gyro.isGood)
+			{
+				SmartDashboard.putNumber(RotateAngle, 90);
+				SmartDashboard.putData("Rotate", new RotateWithGyroCommand(RotateAngle));
+				SmartDashboard.putString(CommandString,  "P0.5,R90,R-90");	
+				SmartDashboard.putData("Run Command String", new GroupBuilderCommand());
+			}
+		}
+		
+		SmartDashboard.putString(AutoSwitchX, "Drive,0.5,2;");
+		SmartDashboard.putString(AutoSwitchY, "Drive,0.5,4;");
+		SmartDashboard.putString(AutoScaleX, "Drive,0.2,0.4;");
+		SmartDashboard.putString(AutoScaleY, "Drive,0.2,0.2;");
+		SmartDashboard.putString(AutoCenterX, "Drive,0.5,1;");
+		SmartDashboard.putString(AutoGrabberOpen, "Grabber,0.5,0.2");
+	}
+	
+	public void OIForConrad()
+	{
 		
 		// xbox mapping
-		btnGrabberOpen = new JoystickButton(Robot.xbox, XBoxLeft);
-		btnGrabberClose = new JoystickButton(Robot.xbox, XBoxRight);
-		btnActuatorDown = new JoystickButton(Robot.xbox, XBoxA);
-		btnActuatorUp = new JoystickButton(Robot.xbox, XBoxB);
-		btnGearIn = new JoystickButton(Robot.xbox, XBoxX);
-		btnGearOut = new JoystickButton(Robot.xbox, XBoxY);
+		btnGrabberOpen = new JoystickButton(Robot.joy, XBoxLeft);
+		btnGrabberClose = new JoystickButton(Robot.joy, XBoxRight);
+		btnActuatorDown = new JoystickButton(Robot.joy, XBoxA);
+		btnActuatorUp = new JoystickButton(Robot.joy, XBoxB);
+		btnGearIn = new JoystickButton(Robot.joy, XBoxX);
+		btnGearOut = new JoystickButton(Robot.joy, XBoxY);
+		btnArmDown = new JoystickButton(Robot.joy, XBoxBack);
+		btnArmUp = new JoystickButton(Robot.joy, XBoxStart);
 		
 		// logitech mapping
 //		btnGrabberOpen = new JoystickButton(Robot.xbox, 8);
@@ -67,15 +127,15 @@ public class OI {
 					
 		if (Robot.grabber != null && Robot.grabber.isGood) {
 			//SmartDashboard.putNumber("Grabber Value",       0.5);
-			SmartDashboard.putNumber("Grabber Open Value",  0.2);
-			SmartDashboard.putNumber("Grabber Close Value", 0.8);
+			SmartDashboard.putNumber("Grabber Open Value",  0.17);
+			SmartDashboard.putNumber("Grabber Close Value", 0.82);
 
 			//SmartDashboard.putData("Grabber",      new GrabberCommand("Grabber Value"));
-			SmartDashboard.putData("Grabber Open", new GrabberCommand("Grabber Open Value"));
-			SmartDashboard.putData("Grabber Close",new GrabberCommand("Grabber Close Value"));
+			SmartDashboard.putData("Grabber Open", new GrabberServoCommand("Grabber Open Value"));
+			SmartDashboard.putData("Grabber Close",new GrabberServoCommand("Grabber Close Value"));
 			
-			btnGrabberOpen.whenPressed(new GrabberCommand("Grabber Open Value"));
-			btnGrabberClose.whenPressed(new GrabberCommand("Grabber Close Value"));
+			btnGrabberOpen.whenPressed(new GrabberServoCommand("Grabber Open Value"));
+			btnGrabberClose.whenPressed(new GrabberServoCommand("Grabber Close Value"));
 		}
 
 		SmartDashboard.putNumber(ActuatorUpLow,  0.4);
@@ -115,7 +175,7 @@ public class OI {
 		{
 			SmartDashboard.putNumber("Drive Duration", 2);
 			SmartDashboard.putNumber("Drive Power", 0.1);
-			SmartDashboard.putData("Drive", new DriveWithDurationAndPowerCommand("Drive Duration", "Drive Power"));
+			SmartDashboard.putData("Drive", new DriveWithPowerAndDurationCommand("Drive Duration", "Drive Power"));
 			
 			if (Robot.gyro != null && Robot.gyro.isGood)
 			{

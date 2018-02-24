@@ -40,9 +40,9 @@ public class CommandParser {
 				if (value < 0 || value > 10)
 					debug += String.format("%s from %s is less than 0 or greater than 10\r\n",  valueText, field);
 				else{
-					DriveWithDurationAndPowerCommand c = null;
+					DriveWithPowerAndDurationCommand c = null;
 					try{
-						c = new DriveWithDurationAndPowerCommand(value, power);
+						c = new DriveWithPowerAndDurationCommand(value, power);
 					}
 					catch (Exception e) {
 						c = null;
@@ -96,7 +96,7 @@ public class CommandParser {
 
 
 			else{
-				debug += String.format("%s from %s is not (P)ower, (D)rive, (T)urn, (R)aise, (L)ower\r\n",  commandText, field);
+				debug += String.format("%s from %s is not (P)ower, (D)rive, (T)urn, (R)aise, (L)ower, (O)pen\r\n",  commandText, field);
 			}
 			
 		}

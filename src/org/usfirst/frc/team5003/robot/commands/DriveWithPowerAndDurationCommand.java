@@ -7,33 +7,35 @@ import org.usfirst.frc.team5003.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DriveWithDurationAndPowerCommand extends Command {
-	String durationKey = null;
+public class DriveWithPowerAndDurationCommand extends Command {
 	String powerKey = null;
-	double duration;
 	double power;
+	String durationKey = null;
+	double duration;
 
-	boolean finished = false;
-	
 	double start;
 
-	public DriveWithDurationAndPowerCommand(String durationKey, String powerKey) {
-		this.durationKey = durationKey;
+	public DriveWithPowerAndDurationCommand(String powerKey, String durationKey) {
 		this.powerKey = powerKey;
+		this.durationKey = durationKey;
         requires(Robot.drivetrain);
     }
 	
-	public DriveWithDurationAndPowerCommand(double duration, double power) {
-			this.duration = duration;
-			this.power = power;
-			durationKey = null;
-			powerKey = null;
+	public DriveWithPowerAndDurationCommand(double power, double duration) {
+		this.power = power;
+		powerKey = null;
+		this.duration = duration;
+		durationKey = null;
 	}
 	
     protected void initialize() {
-    	if (durationKey != null) {
-    		duration = SmartDashboard.getNumber(durationKey,  0.0) * 1000;
+    	if (powerKey != null)
+    	{
     		power = SmartDashboard.getNumber(powerKey,  0.0);
+    	}
+    	if (durationKey != null) 
+    	{
+    		duration = SmartDashboard.getNumber(durationKey,  0.0) * 1000;
     	}
     	start = new Date().getTime();
     	Robot.drivetrain.arcadeDrive(power,  0);

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5003.robot.commands;
 
+import org.usfirst.frc.team5003.robot.OI;
 import org.usfirst.frc.team5003.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -7,14 +8,24 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class GroupBuilderCommand extends Command {
+	
+	String commandString;
 
-    public GroupBuilderCommand() {
-
+	// pass in a string (autonomous)
+    public GroupBuilderCommand(String commandString) {
+    	this.commandString = commandString;
+    }
+    
+    // use string from SmartDashboard
+	public GroupBuilderCommand() {
+    	commandString = null;
     }
 
     protected void initialize() {
     	CommandParser p = new CommandParser();
-    	if (!p.init(SmartDashboard.getString("CommandString", "")))
+    	if (commandString == null)
+    		commandString = SmartDashboard.getString(OI.CommandString, "");
+    	if (!p.init(commandString))
     	{
     		Robot.log(p.debug);
     		return;

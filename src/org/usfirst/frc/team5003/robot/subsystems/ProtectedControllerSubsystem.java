@@ -108,7 +108,7 @@ public class ProtectedControllerSubsystem extends Subsystem {
 
    
  	public void driveWithJoystick() {
-		set(Robot.xbox.getX());
+		set(Robot.joy.getX());
 	}
  	
  	public double getPosition() 

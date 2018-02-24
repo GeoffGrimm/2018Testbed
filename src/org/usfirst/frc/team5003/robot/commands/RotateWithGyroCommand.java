@@ -18,9 +18,9 @@ public class RotateWithGyroCommand extends Command {
 		this.targetHeadingKey = targetHeadingKey;
 	}
 	
-    public RotateWithGyroCommand(double finalHeading) {
+    public RotateWithGyroCommand(double targetHeading) {
     	this();
-    	this.targetHeading = finalHeading;
+    	this.targetHeading = targetHeading;
     	this.targetHeadingKey = null;
     }
     
